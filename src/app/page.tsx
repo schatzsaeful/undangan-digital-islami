@@ -15,6 +15,7 @@ import { GiftSection } from "@/components/GiftSection";
 import { AdabWalimahSection } from "@/components/AdabWalimahSection";
 import { RsvpGuestbook } from "@/components/RsvpGuestbook";
 import { ClosingSection } from "@/components/ClosingSection";
+import { BottomNav } from "@/components/BottomNav";
 
 function InvitationContent() {
   const searchParams = useSearchParams();
@@ -105,6 +106,9 @@ function InvitationContent() {
           bride={invitationConfig.bride}
         />
       </main>
+
+      {/* Sticky Bottom Navigation Dock */}
+      {isCoverOpen && <BottomNav />}
     </div>
   );
 }

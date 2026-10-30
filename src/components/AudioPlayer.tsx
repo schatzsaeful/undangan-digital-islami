@@ -1,6 +1,6 @@
 "use client";
 
-import React, { useState, useEffect, useRef } from "react";
+import React, { useEffect, useRef } from "react";
 import { Music, VolumeX, Volume2 } from "lucide-react";
 
 interface AudioPlayerProps {
@@ -32,22 +32,21 @@ export function AudioPlayer({ src, isPlaying, onTogglePlay }: AudioPlayerProps) 
       <audio ref={audioRef} src={src} loop preload="auto" />
       <button
         onClick={onTogglePlay}
-        aria-label={isPlaying ? "Jeda Musik" : "Putar Musik"}
-        className="fixed bottom-6 right-6 z-50 flex items-center gap-2 p-3.5 rounded-full bg-islamic-emerald/90 text-gold-400 hover:text-gold-200 border border-gold-400/50 shadow-xl backdrop-blur-md transition-all duration-300 hover:scale-110 active:scale-95 group"
+        aria-label={isPlaying ? "Jeda Musik Latar" : "Putar Musik Latar"}
+        className="fixed top-5 right-5 z-40 flex items-center gap-2 p-3 rounded-full bg-islamic-emerald/90 text-gold-300 hover:text-gold-100 border border-gold-400/50 shadow-xl backdrop-blur-md transition-all duration-300 hover:scale-105 active:scale-95 group"
       >
         <div className={`relative flex items-center justify-center ${isPlaying ? "animate-spin-slow" : ""}`}>
-          <Music className="w-5 h-5 text-gold-400 group-hover:text-gold-300" />
+          <Music className="w-4 h-4 text-gold-400 group-hover:text-gold-200" />
         </div>
-        <span className="max-w-0 overflow-hidden whitespace-nowrap text-xs font-medium text-gold-200 transition-all duration-300 group-hover:max-w-xs group-hover:px-1">
+        <span className="max-w-0 overflow-hidden whitespace-nowrap text-[11px] font-medium text-gold-200 transition-all duration-300 group-hover:max-w-xs group-hover:pr-1">
           {isPlaying ? "Musik Aktif" : "Putar Musik"}
         </span>
         {isPlaying ? (
-          <Volume2 className="w-4 h-4 text-gold-400" />
+          <Volume2 className="w-3.5 h-3.5 text-gold-400" />
         ) : (
-          <VolumeX className="w-4 h-4 text-red-400" />
+          <VolumeX className="w-3.5 h-3.5 text-rose-400" />
         )}
       </button>
     </>
   );
 }
-

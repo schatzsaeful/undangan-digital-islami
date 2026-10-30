@@ -23,3 +23,4 @@ if (firebaseConfig.apiKey && firebaseConfig.projectId) {
 }
 
 export { db };
+

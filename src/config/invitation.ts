@@ -83,10 +83,10 @@ export interface InvitationConfig {
 
 export const invitationConfig: InvitationConfig = {
   meta: {
-    title: "Walimatul 'Urs | Fathur & Aisyah",
-    description: "Undangan Pernikahan Islami Modern & Elegan - Muhammad Fathurrahman & Siti Aisyah Azzahra",
+    title: "Walimatul 'Urs | Heri & Asri",
+    description: "Undangan Pernikahan Islami Modern & Elegan - Heri Rahmat Susanto & Asri Agustini",
     ogImage: "https://images.unsplash.com/photo-1519741497674-611481863552?auto=format&fit=crop&w=1200&q=80",
-    url: "https://undangan-fathur-aisyah.vercel.app",
+    url: "https://undangan-digital-islami.vercel.app",
   },
   audio: {
     // Royalty-free peaceful instrumental acoustic melody
@@ -101,19 +101,19 @@ export const invitationConfig: InvitationConfig = {
     surah: "QS. Ar-Rum: 21",
   },
   groom: {
-    fullName: "Muhammad Fathurrahman, S.T.",
-    nickName: "Fathur",
-    fatherName: "H. Abdullah Rahman, M.Pd.",
-    motherName: "Hj. Siti Aminah",
+    fullName: "Heri Rahmat Susanto",
+    nickName: "Heri",
+    fatherName: "H. Susanto",
+    motherName: "Hj. Rahmawati",
     orderInFamily: "Putra pertama dari",
     photo: "https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?auto=format&fit=crop&w=600&q=80",
     instagram: "https://instagram.com",
   },
   bride: {
-    fullName: "Siti Aisyah Azzahra, S.Farm.",
-    nickName: "Aisyah",
-    fatherName: "H. Rahmat Hidayat",
-    motherName: "Hj. Nurul Khadijah",
+    fullName: "Asri Agustini",
+    nickName: "Asri",
+    fatherName: "H. Agusti",
+    motherName: "Hj. Nurhayati",
     orderInFamily: "Putri kedua dari",
     photo: "https://images.unsplash.com/photo-1534528741775-53994a69daeb?auto=format&fit=crop&w=600&q=80",
     instagram: "https://instagram.com",
@@ -128,7 +128,7 @@ export const invitationConfig: InvitationConfig = {
       locationName: "Masjid Agung Al-Barkah",
       address: "Jl. Veteran No. 45, Kebayoran Baru, Jakarta Selatan",
       mapsUrl: "https://maps.google.com/?q=Masjid+Agung+Al-Barkah",
-      calendarUrl: "https://calendar.google.com/calendar/render?action=TEMPLATE&text=Akad+Nikah+Fathur+%26+Aisyah&dates=20261212T010000Z/20261212T030000Z&details=Akad+Nikah+Muhammad+Fathurrahman+%26+Siti+Aisyah+Azzahra&location=Masjid+Agung+Al-Barkah",
+      calendarUrl: "https://calendar.google.com/calendar/render?action=TEMPLATE&text=Akad+Nikah+Heri+%26+Asri&dates=20261212T010000Z/20261212T030000Z&details=Akad+Nikah+Heri+Rahmat+Susanto+%26+Asri+Agustini&location=Masjid+Agung+Al-Barkah",
     },
     resepsi: {
       title: "Walimatul 'Urs (Resepsi)",
@@ -138,7 +138,7 @@ export const invitationConfig: InvitationConfig = {
       locationName: "Grand Ballroom Al-Jazeera Convention Hall",
       address: "Jl. Raden Saleh No. 88, Menteng, Jakarta Pusat",
       mapsUrl: "https://maps.google.com/?q=Jakarta+Ballroom",
-      calendarUrl: "https://calendar.google.com/calendar/render?action=TEMPLATE&text=Walimatul+'Urs+Fathur+%26+Aisyah&dates=20261212T040000Z/20261212T070000Z&details=Resepsi+Pernikahan+Fathur+%26+Aisyah&location=Grand+Ballroom+Al-Jazeera",
+      calendarUrl: "https://calendar.google.com/calendar/render?action=TEMPLATE&text=Walimatul+'Urs+Heri+%26+Asri&dates=20261212T040000Z/20261212T070000Z&details=Resepsi+Pernikahan+Heri+Rahmat+Susanto+%26+Asri+Agustini&location=Grand+Ballroom+Al-Jazeera",
     },
   },
   stories: [
@@ -191,24 +191,24 @@ export const invitationConfig: InvitationConfig = {
     {
       bankName: "Bank Syariah Indonesia (BSI)",
       accountNumber: "7123456789",
-      accountHolder: "Muhammad Fathurrahman",
+      accountHolder: "Heri Rahmat Susanto",
       logo: "BSI",
     },
     {
       bankName: "Bank Central Asia (BCA)",
       accountNumber: "8820123456",
-      accountHolder: "Siti Aisyah Azzahra",
+      accountHolder: "Asri Agustini",
       logo: "BCA",
     },
     {
       bankName: "Bank Mandiri",
       accountNumber: "1230009876543",
-      accountHolder: "Muhammad Fathurrahman",
+      accountHolder: "Heri Rahmat Susanto",
       logo: "MANDIRI",
     },
   ],
   physicalGiftAddress: {
-    recipient: "Keluarga H. Abdullah / Fathur",
+    recipient: "Keluarga Heri & Asri",
     phone: "+62 812-3456-7890",
     address: "Perumahan Griya Sakinah Asri Blok B No. 12, Kebayoran Baru, Jakarta Selatan, 12150",
   },
