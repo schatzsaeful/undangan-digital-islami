@@ -2,8 +2,10 @@
 
 import React, { useState, useEffect } from "react";
 import confetti from "canvas-confetti";
-import { Send, CheckCircle2, MessageSquareHeart, User, Users } from "lucide-react";
+import { Send, CheckCircle2, MessageSquareHeart, User, Users, Cloud } from "lucide-react";
 import { SectionDivider } from "./IslamicOrnaments";
+import { db } from "@/lib/firebase";
+import { collection, addDoc, query, orderBy, onSnapshot, serverTimestamp } from "firebase/firestore";
 
 export interface GuestWish {
   id: string;
@@ -55,6 +57,7 @@ export function RsvpGuestbook({ initialGuestName = "" }: RsvpGuestbookProps) {
   const [message, setMessage] = useState("");
   const [wishes, setWishes] = useState<GuestWish[]>(INITIAL_WISHES);
   const [isSubmitted, setIsSubmitted] = useState(false);
+  const [isUsingFirebase, setIsUsingFirebase] = useState(false);
 
   useEffect(() => {
     if (initialGuestName) {
@@ -62,37 +65,89 @@ export function RsvpGuestbook({ initialGuestName = "" }: RsvpGuestbookProps) {
     }
   }, [initialGuestName]);
 
-  // Load from local storage if available
+  // If Firebase is configured, listen to Firestore in real-time
   useEffect(() => {
-    try {
-      const saved = localStorage.getItem("walimah_wishes");
-      if (saved) {
-        setWishes(JSON.parse(saved));
+    if (db) {
+      setIsUsingFirebase(true);
+      try {
+        const q = query(collection(db, "wishes"), orderBy("createdAt", "desc"));
+        const unsubscribe = onSnapshot(
+          q,
+          (snapshot) => {
+            const list: GuestWish[] = snapshot.docs.map((doc) => {
+              const data = doc.data();
+              return {
+                id: doc.id,
+                name: data.name || "Tamu",
+                status: data.status || "hadir",
+                pax: data.pax || 1,
+                message: data.message || "",
+                timestamp: data.createdAt?.toDate
+                  ? new Intl.DateTimeFormat("id-ID", {
+                      dateStyle: "medium",
+                      timeStyle: "short",
+                    }).format(data.createdAt.toDate())
+                  : "Baru saja",
+              };
+            });
+            if (list.length > 0) {
+              setWishes(list);
+            }
+          },
+          (error) => {
+            console.warn("Firestore onSnapshot error, falling back to local:", error);
+            setIsUsingFirebase(false);
+          }
+        );
+        return () => unsubscribe();
+      } catch (err) {
+        console.warn("Failed to attach Firestore listener:", err);
       }
-    } catch {
-      // ignore
+    } else {
+      // Local storage fallback
+      try {
+        const saved = localStorage.getItem("walimah_wishes");
+        if (saved) {
+          setWishes(JSON.parse(saved));
+        }
+      } catch {
+        // ignore
+      }
     }
   }, []);
 
-  const handleSubmit = (e: React.FormEvent) => {
+  const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     if (!name.trim() || !message.trim()) return;
 
-    const newWish: GuestWish = {
-      id: Date.now().toString(),
-      name: name.trim(),
-      status,
-      pax,
-      message: message.trim(),
-      timestamp: "Baru saja",
-    };
-
-    const updated = [newWish, ...wishes];
-    setWishes(updated);
-    try {
-      localStorage.setItem("walimah_wishes", JSON.stringify(updated));
-    } catch {
-      // ignore
+    if (db) {
+      try {
+        await addDoc(collection(db, "wishes"), {
+          name: name.trim(),
+          status,
+          pax,
+          message: message.trim(),
+          createdAt: serverTimestamp(),
+        });
+      } catch (err) {
+        console.error("Error adding wish to Firebase:", err);
+      }
+    } else {
+      const newWish: GuestWish = {
+        id: Date.now().toString(),
+        name: name.trim(),
+        status,
+        pax,
+        message: message.trim(),
+        timestamp: "Baru saja",
+      };
+      const updated = [newWish, ...wishes];
+      setWishes(updated);
+      try {
+        localStorage.setItem("walimah_wishes", JSON.stringify(updated));
+      } catch {
+        // ignore
+      }
     }
 
     try {
@@ -228,9 +283,17 @@ export function RsvpGuestbook({ initialGuestName = "" }: RsvpGuestbookProps) {
 
       {/* Wishes List */}
       <div className="mt-8 space-y-3">
-        <div className="flex items-center gap-2 text-xs font-bold uppercase tracking-wider text-gold-700 px-2">
-          <MessageSquareHeart className="w-4 h-4 text-gold-600" />
-          <span>Untaian Doa Tamu ({wishes.length})</span>
+        <div className="flex items-center justify-between px-2">
+          <div className="flex items-center gap-2 text-xs font-bold uppercase tracking-wider text-gold-700">
+            <MessageSquareHeart className="w-4 h-4 text-gold-600" />
+            <span>Untaian Doa Tamu ({wishes.length})</span>
+          </div>
+          {isUsingFirebase && (
+            <span className="inline-flex items-center gap-1 text-[11px] text-emerald-700 font-medium bg-emerald-50 border border-emerald-200 px-2 py-0.5 rounded-full">
+              <Cloud className="w-3 h-3 text-emerald-600" />
+              <span>Realtime Cloud</span>
+            </span>
+          )}
         </div>
 
         <div className="max-h-96 overflow-y-auto space-y-3 pr-1">
@@ -258,4 +321,3 @@ export function RsvpGuestbook({ initialGuestName = "" }: RsvpGuestbookProps) {
     </section>
   );
 }
-
