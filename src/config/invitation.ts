@@ -89,8 +89,8 @@ export const invitationConfig: InvitationConfig = {
     url: "https://walimatulurs-heri-asri.vercel.app",
   },
   audio: {
-    // Royalty-free peaceful instrumental acoustic melody
-    src: "https://cdn.pixabay.com/download/audio/2022/05/27/audio_1808fbf07a.mp3?filename=romantic-wedding-114227.mp3",
+    // Royalty-free peaceful instrumental acoustic melody served directly from public folder
+    src: "/audio/backsound.mp3",
     title: "Kisah Kasih Menuju Ridho Ilahi",
     artist: "Harmoni Cinta Islami",
   },
