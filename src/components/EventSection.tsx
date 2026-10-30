@@ -136,3 +136,4 @@ export function EventSection({ akad, resepsi }: EventSectionProps) {
     </section>
   );
 }
+

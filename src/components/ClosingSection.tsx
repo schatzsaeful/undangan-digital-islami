@@ -59,3 +59,4 @@ export function ClosingSection({ groom, bride }: ClosingSectionProps) {
     </footer>
   );
 }
+

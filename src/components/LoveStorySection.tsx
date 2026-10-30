@@ -39,3 +39,4 @@ export function LoveStorySection({ stories }: LoveStorySectionProps) {
     </section>
   );
 }
+

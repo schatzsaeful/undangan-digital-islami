@@ -91,3 +91,4 @@ export function HeroSection({ groom, bride, mainDateFormatted }: HeroSectionProp
     </section>
   );
 }
+

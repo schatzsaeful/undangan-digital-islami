@@ -50,3 +50,4 @@ export function AudioPlayer({ src, isPlaying, onTogglePlay }: AudioPlayerProps) 
     </>
   );
 }
+
