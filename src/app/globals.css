@@ -1,0 +1,76 @@
+@import url('https://fonts.googleapis.com/css2?family=Amiri:ital,wght@0,400;0,700;1,400&family=Playfair+Display:ital,wght@0,400..900;1,400..900&family=Plus+Jakarta+Sans:ital,wght@0,300..800;1,300..800&display=swap');
+
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+:root {
+  --background: #fdfbf7;
+  --foreground: #1c2720;
+}
+
+html {
+  scroll-behavior: smooth;
+}
+
+body {
+  color: var(--foreground);
+  background: var(--background);
+  font-family: 'Plus Jakarta Sans', system-ui, -apple-system, sans-serif;
+  overflow-x: hidden;
+}
+
+/* Islamic Geometric Background Pattern */
+.islamic-pattern {
+  background-color: #fdfbf7;
+  background-image: radial-gradient(#d5a438 0.75px, transparent 0.75px), radial-gradient(#8eb69b 0.75px, #fdfbf7 0.75px);
+  background-size: 30px 30px;
+  background-position: 0 0, 15px 15px;
+}
+
+/* Luxury Gold Gradients */
+.text-gold-gradient {
+  background: linear-gradient(135deg, #c59325 0%, #e5c158 50%, #a47519 100%);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+}
+
+.bg-gold-gradient {
+  background: linear-gradient(135deg, #c59325 0%, #d5a438 50%, #a47519 100%);
+}
+
+.border-gold-gradient {
+  border-image: linear-gradient(to right, #c59325, #f3e5ab, #c59325) 1;
+}
+
+/* Glassmorphism Islamic Cards */
+.glass-card {
+  background: rgba(255, 255, 255, 0.88);
+  backdrop-filter: blur(12px);
+  -webkit-backdrop-filter: blur(12px);
+  border: 1px solid rgba(213, 164, 56, 0.28);
+  box-shadow: 0 10px 30px -10px rgba(11, 43, 38, 0.08);
+}
+
+.glass-card-dark {
+  background: rgba(11, 43, 38, 0.94);
+  backdrop-filter: blur(12px);
+  -webkit-backdrop-filter: blur(12px);
+  border: 1px solid rgba(213, 164, 56, 0.35);
+  box-shadow: 0 20px 40px -15px rgba(0, 0, 0, 0.3);
+}
+
+/* Custom Scrollbar */
+::-webkit-scrollbar {
+  width: 6px;
+}
+::-webkit-scrollbar-track {
+  background: #f7f3eb;
+}
+::-webkit-scrollbar-thumb {
+  background: #c59325;
+  border-radius: 9999px;
+}
+::-webkit-scrollbar-thumb:hover {
+  background: #a47519;
+}
