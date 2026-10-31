@@ -13,25 +13,25 @@ interface HeroSectionProps {
 
 export function HeroSection({ groom, bride, mainDateFormatted }: HeroSectionProps) {
   return (
-    <section className="relative pt-12 pb-16 px-4 text-center overflow-hidden">
+    <section className="relative pt-16 pb-20 px-4 text-center overflow-hidden">
       <div className="max-w-3xl mx-auto flex flex-col items-center">
-        {/* Subtle royal badge */}
-        <ScrollReveal animation="fade-down" duration={600}>
-          <div className="inline-flex items-center gap-2 px-4 py-1.5 rounded-full border border-gold-400/40 bg-gold-100/70 text-gold-800 text-xs tracking-widest uppercase mb-6 shadow-sm animate-pulse-subtle">
+        {/* Subtle royal badge with comfortable margins */}
+        <ScrollReveal animation="fade-down" duration={600} className="mb-6 sm:mb-8">
+          <div className="inline-flex items-center gap-2 px-5 py-2 rounded-full border border-gold-400/50 bg-gold-100/80 text-gold-800 text-xs tracking-widest uppercase shadow-sm animate-pulse-subtle">
             <Sparkles className="w-3.5 h-3.5 text-gold-600" />
             <span>Walimatul &apos;Urs Syar&apos;i</span>
             <Sparkles className="w-3.5 h-3.5 text-gold-600" />
           </div>
         </ScrollReveal>
 
-        {/* Bismillah Calligraphy */}
-        <ScrollReveal animation="fade-up" delay={100} duration={700}>
-          <BismillahCalligraphy className="w-full text-gold-600 mb-6 scale-95 sm:scale-100" />
+        {/* Bismillah Calligraphy with dedicated vertical breathing room */}
+        <ScrollReveal animation="fade-up" delay={100} duration={700} className="w-full my-6 sm:my-8">
+          <BismillahCalligraphy className="w-full text-gold-600" />
         </ScrollReveal>
 
         {/* Hero Arch Frame with Syar'i Couple Illustration */}
-        <ScrollReveal animation="scale-up" delay={200} duration={800}>
-          <div className="relative w-64 h-80 sm:w-72 sm:h-96 my-4 rounded-t-full rounded-b-3xl overflow-hidden p-2 bg-gradient-to-b from-gold-400 via-gold-200 to-islamic-forest shadow-2xl animate-float">
+        <ScrollReveal animation="scale-up" delay={200} duration={800} className="my-6 sm:my-8">
+          <div className="relative w-64 h-80 sm:w-72 sm:h-96 rounded-t-full rounded-b-3xl overflow-hidden p-2 bg-gradient-to-b from-gold-400 via-gold-200 to-islamic-forest shadow-2xl animate-float">
             <div className="relative w-full h-full rounded-t-full rounded-b-2xl overflow-hidden border-2 border-white/95">
               <Image
                 src="/images/couple.jpg"
@@ -46,8 +46,8 @@ export function HeroSection({ groom, bride, mainDateFormatted }: HeroSectionProp
         </ScrollReveal>
 
         {/* Bride & Groom Main Display */}
-        <ScrollReveal animation="fade-up" delay={300} duration={700}>
-          <div className="mt-6 space-y-2">
+        <ScrollReveal animation="fade-up" delay={300} duration={700} className="mt-4 sm:mt-6">
+          <div className="space-y-2">
             <p className="text-xs uppercase tracking-widest text-gold-600 font-sans font-semibold">
               Pernikahan Suci
             </p>

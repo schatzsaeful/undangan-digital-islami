@@ -46,14 +46,14 @@ export function Cover({ guestName, groomNick, brideNick, weddingDate, isOpen, on
       {/* Decorative center frame with double ornate border */}
       <div className="relative max-w-lg w-full py-10 px-6 sm:px-10 text-center rounded-[2.5rem] glass-card-dark ornate-border-dark shadow-2xl flex flex-col items-center animate-fade-up">
         {/* Subtle decorative top badge */}
-        <div className="inline-flex items-center gap-2 px-4 py-1.5 rounded-full border border-gold-400/40 bg-gold-500/10 text-gold-300 text-xs tracking-widest uppercase mb-5 shadow-sm">
+        <div className="inline-flex items-center gap-2 px-5 py-2 rounded-full border border-gold-400/50 bg-gold-500/15 text-gold-300 text-xs tracking-widest uppercase mb-6 sm:mb-7 shadow-sm">
           <Sparkles className="w-3.5 h-3.5 text-gold-400 animate-pulse" />
           <span>Walimatul &apos;Urs</span>
           <Sparkles className="w-3.5 h-3.5 text-gold-400 animate-pulse" />
         </div>
 
         {/* Bismillah */}
-        <BismillahCalligraphy className="w-full text-gold-400 mb-6 scale-90 sm:scale-100" />
+        <BismillahCalligraphy className="w-full text-gold-400 my-4 sm:my-6 scale-90 sm:scale-100" />
 
         {/* Couple Names */}
         <div className="space-y-1 mb-6">

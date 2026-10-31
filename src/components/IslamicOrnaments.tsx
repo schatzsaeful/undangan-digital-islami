@@ -2,15 +2,15 @@ import React from "react";
 
 export function BismillahCalligraphy({ className = "w-64 text-gold-400" }: { className?: string }) {
   return (
-    <div className={`flex flex-col items-center justify-center ${className}`}>
+    <div className={`flex flex-col items-center justify-center py-2 ${className}`}>
       {/* Clean Arabic Calligraphy Typography */}
-      <p className="font-arabic text-3xl md:text-4xl text-center leading-relaxed tracking-wider text-gold-600 font-bold select-none py-1">
+      <p className="font-arabic text-2xl sm:text-3xl md:text-4xl text-center leading-loose tracking-wider text-gold-600 font-bold select-none px-4">
         بِسْمِ اللَّهِ الرَّحْمَٰنِ الرَّحِيمِ
       </p>
-      <div className="flex items-center gap-2 mt-2">
-        <span className="h-[1px] w-12 bg-gradient-to-r from-transparent to-gold-400"></span>
+      <div className="flex items-center gap-3 mt-3 sm:mt-4">
+        <span className="h-[1px] w-14 sm:w-20 bg-gradient-to-r from-transparent to-gold-400"></span>
         <RubElHizb className="w-3.5 h-3.5 text-gold-500" />
-        <span className="h-[1px] w-12 bg-gradient-to-l from-transparent to-gold-400"></span>
+        <span className="h-[1px] w-14 sm:w-20 bg-gradient-to-l from-transparent to-gold-400"></span>
       </div>
     </div>
   );
