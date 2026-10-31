@@ -3,17 +3,8 @@ import React from "react";
 export function BismillahCalligraphy({ className = "w-64 text-gold-400" }: { className?: string }) {
   return (
     <div className={`flex flex-col items-center justify-center ${className}`}>
-      {/* Authentic Calligraphy SVG representation of Bismillah */}
-      <svg
-        viewBox="0 0 400 100"
-        fill="currentColor"
-        className="w-full h-auto drop-shadow-sm"
-        xmlns="http://www.w3.org/2000/svg"
-      >
-        <path d="M200 15 C 205 15, 210 20, 210 28 C 210 40, 190 45, 175 42 C 160 39, 155 30, 160 22 C 165 14, 190 14, 200 15 Z" opacity="0.1" />
-      </svg>
-      {/* Arabic Calligraphy Typography */}
-      <p className="font-arabic text-3xl md:text-4xl text-center leading-relaxed tracking-wider text-gold-600 font-bold select-none">
+      {/* Clean Arabic Calligraphy Typography */}
+      <p className="font-arabic text-3xl md:text-4xl text-center leading-relaxed tracking-wider text-gold-600 font-bold select-none py-1">
         بِسْمِ اللَّهِ الرَّحْمَٰنِ الرَّحِيمِ
       </p>
       <div className="flex items-center gap-2 mt-2">
