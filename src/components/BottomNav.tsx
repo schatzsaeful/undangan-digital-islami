@@ -1,13 +1,13 @@
 "use client";
 
 import React, { useState, useEffect } from "react";
-import { Users, Calendar, BookOpen, Image as ImageIcon, Gift, MessageSquareHeart } from "lucide-react";
+import { Users, Calendar, BookOpen, Sparkles, Gift, MessageSquareHeart } from "lucide-react";
 
 const NAV_ITEMS = [
   { id: "mempelai", label: "Mempelai", icon: Users },
   { id: "acara", label: "Acara", icon: Calendar },
   { id: "cerita", label: "Kisah", icon: BookOpen },
-  { id: "galeri", label: "Galeri", icon: ImageIcon },
+  { id: "nasihat", label: "Sunnah", icon: Sparkles },
   { id: "amplop", label: "Hadiah", icon: Gift },
   { id: "rsvp", label: "Ucapan", icon: MessageSquareHeart },
 ];
@@ -67,4 +67,3 @@ export function BottomNav() {
     </div>
   );
 }
-

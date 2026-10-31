@@ -10,7 +10,7 @@ import { CountdownTimer } from "@/components/CountdownTimer";
 import { CoupleSection } from "@/components/CoupleSection";
 import { EventSection } from "@/components/EventSection";
 import { LoveStorySection } from "@/components/LoveStorySection";
-import { GallerySection } from "@/components/GallerySection";
+import { QuotesSection } from "@/components/QuotesSection";
 import { GiftSection } from "@/components/GiftSection";
 import { AdabWalimahSection } from "@/components/AdabWalimahSection";
 import { RsvpGuestbook } from "@/components/RsvpGuestbook";
@@ -85,8 +85,8 @@ function InvitationContent() {
         {/* Love Story / Ta'aruf Timeline */}
         <LoveStorySection stories={invitationConfig.stories} />
 
-        {/* Photo Gallery */}
-        <GallerySection galleries={invitationConfig.galleries} />
+        {/* Mutiara Sunnah & Hadits Pernikahan (Pengganti Galeri untuk Konsep Syar'i) */}
+        <QuotesSection />
 
         {/* Islamic Etiquette (Adab Walimah) */}
         <AdabWalimahSection items={invitationConfig.adabWalimah} />

@@ -9,7 +9,7 @@ import { CountdownTimer } from "@/components/CountdownTimer";
 import { CoupleSection } from "@/components/CoupleSection";
 import { EventSection } from "@/components/EventSection";
 import { LoveStorySection } from "@/components/LoveStorySection";
-import { GallerySection } from "@/components/GallerySection";
+import { QuotesSection } from "@/components/QuotesSection";
 import { GiftSection } from "@/components/GiftSection";
 import { AdabWalimahSection } from "@/components/AdabWalimahSection";
 import { RsvpGuestbook } from "@/components/RsvpGuestbook";
@@ -87,7 +87,8 @@ export default function GuestPersonalPage({ params }: PageProps) {
 
         <LoveStorySection stories={invitationConfig.stories} />
 
-        <GallerySection galleries={invitationConfig.galleries} />
+        {/* Mutiara Sunnah & Hadits Pernikahan (Pengganti Galeri untuk Konsep Syar'i) */}
+        <QuotesSection />
 
         <AdabWalimahSection items={invitationConfig.adabWalimah} />
 

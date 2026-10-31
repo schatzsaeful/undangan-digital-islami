@@ -1,7 +1,7 @@
 import React from "react";
-import Image from "next/image";
 import { Heart } from "lucide-react";
 import { RubElHizb, SectionDivider } from "./IslamicOrnaments";
+import { GroomIllustration, BrideIllustration } from "./IslamicIllustrations";
 import { InvitationConfig } from "@/config/invitation";
 
 function InstagramIcon({ className = "w-3.5 h-3.5" }: { className?: string }) {
@@ -32,22 +32,22 @@ export function CoupleSection({ groom, bride, quranVerse }: CoupleSectionProps) 
   return (
     <section className="relative py-16 px-4 max-w-4xl mx-auto text-center" id="mempelai">
       {/* Quranic Verse Box */}
-      <div className="mb-16 p-6 sm:p-10 rounded-3xl glass-card border border-gold-300/50 shadow-md max-w-3xl mx-auto">
-        <RubElHizb className="w-6 h-6 text-gold-500 mx-auto mb-4" />
-        <p className="font-arabic text-xl sm:text-2xl text-islamic-emerald leading-loose sm:leading-[2.4rem] font-medium mb-6 px-2">
+      <div className="mb-16 p-6 sm:p-10 rounded-3xl glass-card ornate-border shadow-md max-w-3xl mx-auto">
+        <RubElHizb className="w-6 h-6 text-gold-500 mx-auto mb-4 animate-pulse-subtle" />
+        <p className="font-arabic text-xl sm:text-2xl text-islamic-emerald leading-loose sm:leading-[2.5rem] font-medium mb-6 px-2">
           {quranVerse.arabic}
         </p>
-        <p className="font-sans text-xs sm:text-sm text-islamic-deep/80 italic leading-relaxed max-w-2xl mx-auto mb-3">
+        <p className="font-sans text-xs sm:text-sm text-islamic-deep/85 italic leading-relaxed max-w-2xl mx-auto mb-3">
           {quranVerse.translation}
         </p>
-        <span className="inline-block text-xs font-semibold text-gold-700 bg-gold-100/80 px-3.5 py-1 rounded-full border border-gold-300/60">
+        <span className="inline-block text-xs font-semibold text-gold-700 bg-gold-100/90 px-3.5 py-1 rounded-full border border-gold-300/60 shadow-sm">
           {quranVerse.surah}
         </span>
       </div>
 
       <SectionDivider
         title="Kedua Mempelai"
-        subtitle="Maha Suci Allah yang telah menciptakan makhluk-Nya berpasang-pasangan"
+        subtitle="Maha Suci Allah yang telah menciptakan hamba-Nya berpasang-pasangan"
       />
 
       {/* Polite Islamic Greeting */}
@@ -55,27 +55,21 @@ export function CoupleSection({ groom, bride, quranVerse }: CoupleSectionProps) 
         <p className="font-arabic text-2xl text-gold-600 font-semibold">
           السَّلاَمُ عَلَيْكُمْ وَرَحْمَةُ اللهِ وَبَرَكَاتُهُ
         </p>
-        <p className="text-sm sm:text-base text-islamic-forest/90 leading-relaxed font-sans">
-          Dengan memohon rahmat dan ridho Allah Subhanahu Wa Ta&apos;ala, kami bermaksud
+        <p className="text-xs sm:text-sm text-islamic-forest/90 leading-relaxed font-sans">
+          Dengan memohon rahmat, taufiq, dan ridho Allah Subhanahu Wa Ta&apos;ala, kami bermaksud
           menyelenggarakan ikatan suci pernikahan putra-putri kami:
         </p>
       </div>
 
-      {/* Groom & Bride Grid */}
-      <div className="grid grid-cols-1 md:grid-cols-2 gap-10 md:gap-8 items-center max-w-3xl mx-auto">
+      {/* Groom & Bride Grid with Syar'i Vector Illustrations */}
+      <div className="grid grid-cols-1 md:grid-cols-2 gap-8 md:gap-8 items-center max-w-3xl mx-auto">
         {/* Groom Card */}
-        <div className="flex flex-col items-center p-8 rounded-3xl glass-card border border-gold-300/40 hover:border-gold-400 transition-all duration-300 hover:shadow-lg group">
-          <div className="relative w-40 h-40 sm:w-44 sm:h-44 rounded-full p-1.5 bg-gradient-to-tr from-gold-500 via-gold-200 to-gold-600 shadow-md mb-6">
-            <div className="relative w-full h-full rounded-full overflow-hidden border-2 border-white">
-              <Image
-                src={groom.photo}
-                alt={groom.fullName}
-                fill
-                sizes="(max-width: 768px) 160px, 176px"
-                className="object-cover transition-transform duration-500 group-hover:scale-105"
-              />
+        <div className="flex flex-col items-center p-8 rounded-3xl glass-card ornate-border hover:shadow-xl transition-all duration-300 hover:-translate-y-1 group">
+          <div className="relative w-44 h-44 sm:w-48 sm:h-48 p-1.5 rounded-full bg-gradient-to-tr from-gold-500 via-gold-200 to-islamic-forest shadow-lg mb-6 transition-transform duration-500 group-hover:scale-105">
+            <div className="w-full h-full rounded-full overflow-hidden border-2 border-white/90">
+              <GroomIllustration />
             </div>
-            <div className="absolute -bottom-2 -right-1 bg-islamic-emerald text-gold-300 p-2 rounded-full border border-gold-400 shadow-sm">
+            <div className="absolute -bottom-2 -right-1 bg-islamic-emerald text-gold-300 p-2.5 rounded-full border border-gold-400 shadow-md">
               <RubElHizb className="w-4 h-4" />
             </div>
           </div>
@@ -83,7 +77,7 @@ export function CoupleSection({ groom, bride, quranVerse }: CoupleSectionProps) 
           <h3 className="font-serif text-2xl font-bold text-islamic-emerald group-hover:text-gold-700 transition-colors">
             {groom.fullName}
           </h3>
-          <p className="text-xs uppercase tracking-widest text-gold-600 font-semibold my-1">
+          <p className="text-xs uppercase tracking-widest text-gold-600 font-semibold my-1 font-sans">
             ({groom.nickName})
           </p>
           <p className="text-xs sm:text-sm text-islamic-forest/80 font-sans mt-2">
@@ -99,7 +93,7 @@ export function CoupleSection({ groom, bride, quranVerse }: CoupleSectionProps) 
               href={groom.instagram}
               target="_blank"
               rel="noopener noreferrer"
-              className="mt-4 inline-flex items-center gap-1.5 text-xs text-gold-700 hover:text-gold-900 bg-gold-50 hover:bg-gold-100 border border-gold-200 px-3.5 py-1.5 rounded-full transition-colors"
+              className="mt-5 inline-flex items-center gap-1.5 text-xs text-gold-800 hover:text-gold-950 bg-gold-50 hover:bg-gold-100 border border-gold-300 px-4 py-1.5 rounded-full transition-colors font-medium shadow-sm active:scale-95"
             >
               <InstagramIcon className="w-3.5 h-3.5" />
               <span>Instagram</span>
@@ -108,18 +102,12 @@ export function CoupleSection({ groom, bride, quranVerse }: CoupleSectionProps) 
         </div>
 
         {/* Bride Card */}
-        <div className="flex flex-col items-center p-8 rounded-3xl glass-card border border-gold-300/40 hover:border-gold-400 transition-all duration-300 hover:shadow-lg group">
-          <div className="relative w-40 h-40 sm:w-44 sm:h-44 rounded-full p-1.5 bg-gradient-to-tr from-gold-500 via-gold-200 to-gold-600 shadow-md mb-6">
-            <div className="relative w-full h-full rounded-full overflow-hidden border-2 border-white">
-              <Image
-                src={bride.photo}
-                alt={bride.fullName}
-                fill
-                sizes="(max-width: 768px) 160px, 176px"
-                className="object-cover transition-transform duration-500 group-hover:scale-105"
-              />
+        <div className="flex flex-col items-center p-8 rounded-3xl glass-card ornate-border hover:shadow-xl transition-all duration-300 hover:-translate-y-1 group">
+          <div className="relative w-44 h-44 sm:w-48 sm:h-48 p-1.5 rounded-full bg-gradient-to-tr from-gold-500 via-gold-200 to-islamic-forest shadow-lg mb-6 transition-transform duration-500 group-hover:scale-105">
+            <div className="w-full h-full rounded-full overflow-hidden border-2 border-white/90">
+              <BrideIllustration />
             </div>
-            <div className="absolute -bottom-2 -right-1 bg-islamic-emerald text-gold-300 p-2 rounded-full border border-gold-400 shadow-sm">
+            <div className="absolute -bottom-2 -right-1 bg-islamic-emerald text-gold-300 p-2.5 rounded-full border border-gold-400 shadow-md">
               <Heart className="w-4 h-4 fill-gold-300" />
             </div>
           </div>
@@ -127,7 +115,7 @@ export function CoupleSection({ groom, bride, quranVerse }: CoupleSectionProps) 
           <h3 className="font-serif text-2xl font-bold text-islamic-emerald group-hover:text-gold-700 transition-colors">
             {bride.fullName}
           </h3>
-          <p className="text-xs uppercase tracking-widest text-gold-600 font-semibold my-1">
+          <p className="text-xs uppercase tracking-widest text-gold-600 font-semibold my-1 font-sans">
             ({bride.nickName})
           </p>
           <p className="text-xs sm:text-sm text-islamic-forest/80 font-sans mt-2">
@@ -143,7 +131,7 @@ export function CoupleSection({ groom, bride, quranVerse }: CoupleSectionProps) 
               href={bride.instagram}
               target="_blank"
               rel="noopener noreferrer"
-              className="mt-4 inline-flex items-center gap-1.5 text-xs text-gold-700 hover:text-gold-900 bg-gold-50 hover:bg-gold-100 border border-gold-200 px-3.5 py-1.5 rounded-full transition-colors"
+              className="mt-5 inline-flex items-center gap-1.5 text-xs text-gold-800 hover:text-gold-950 bg-gold-50 hover:bg-gold-100 border border-gold-300 px-4 py-1.5 rounded-full transition-colors font-medium shadow-sm active:scale-95"
             >
               <InstagramIcon className="w-3.5 h-3.5" />
               <span>Instagram</span>
