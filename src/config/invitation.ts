@@ -85,7 +85,7 @@ export const invitationConfig: InvitationConfig = {
   meta: {
     title: "Walimatul 'Urs | Heri & Asri",
     description: "Undangan Pernikahan Islami Modern & Elegan - Heri Rahmat Susanto & Asri Agustini",
-    ogImage: "https://images.unsplash.com/photo-1511285560929-80b456fea0bc?auto=format&fit=crop&w=1200&q=80",
+    ogImage: "https://walimatulurs-heri-asri.vercel.app/images/couple.jpg",
     url: "https://walimatulurs-heri-asri.vercel.app",
   },
   audio: {
@@ -106,7 +106,7 @@ export const invitationConfig: InvitationConfig = {
     fatherName: "H. Susanto",
     motherName: "Hj. Rahmawati",
     orderInFamily: "Putra pertama dari",
-    photo: "https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?auto=format&fit=crop&w=600&q=80",
+    photo: "/images/groom-avatar.png",
     instagram: "https://instagram.com",
   },
   bride: {
@@ -115,7 +115,7 @@ export const invitationConfig: InvitationConfig = {
     fatherName: "H. Agusti",
     motherName: "Hj. Nurhayati",
     orderInFamily: "Putri kedua dari",
-    photo: "https://images.unsplash.com/photo-1534528741775-53994a69daeb?auto=format&fit=crop&w=600&q=80",
+    photo: "/images/bride-avatar.png",
     instagram: "https://instagram.com",
   },
   mainDate: "2026-12-12T08:00:00",
