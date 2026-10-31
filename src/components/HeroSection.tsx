@@ -1,7 +1,7 @@
 import React from "react";
+import Image from "next/image";
 import { Sparkles } from "lucide-react";
-import { BismillahCalligraphy, RubElHizb } from "./IslamicOrnaments";
-import { CoupleMonogramCrest } from "./IslamicIllustrations";
+import { BismillahCalligraphy } from "./IslamicOrnaments";
 import { InvitationConfig } from "@/config/invitation";
 
 interface HeroSectionProps {
@@ -24,9 +24,18 @@ export function HeroSection({ groom, bride, mainDateFormatted }: HeroSectionProp
         {/* Bismillah Calligraphy */}
         <BismillahCalligraphy className="w-full text-gold-600 mb-6 scale-95 sm:scale-100" />
 
-        {/* Royal Islamic Monogram Crest */}
-        <div className="my-4 animate-float">
-          <CoupleMonogramCrest className="w-56 h-56 sm:w-64 sm:h-64" />
+        {/* Hero Arch Frame with Syar'i Couple Illustration */}
+        <div className="relative w-64 h-80 sm:w-72 sm:h-96 my-4 rounded-t-full rounded-b-3xl overflow-hidden p-2 bg-gradient-to-b from-gold-400 via-gold-200 to-islamic-forest shadow-2xl animate-float">
+          <div className="relative w-full h-full rounded-t-full rounded-b-2xl overflow-hidden border-2 border-white/95">
+            <Image
+              src="/images/couple.jpg"
+              alt={`${groom.nickName} & ${bride.nickName}`}
+              fill
+              priority
+              sizes="(max-width: 640px) 256px, 288px"
+              className="object-cover object-[50%_15%] transition-transform duration-700 hover:scale-105"
+            />
+          </div>
         </div>
 
         {/* Bride & Groom Main Display */}

@@ -1,7 +1,7 @@
 import React from "react";
+import Image from "next/image";
 import { Heart } from "lucide-react";
 import { RubElHizb, SectionDivider } from "./IslamicOrnaments";
-import { GroomIllustration, BrideIllustration } from "./IslamicIllustrations";
 import { InvitationConfig } from "@/config/invitation";
 
 function InstagramIcon({ className = "w-3.5 h-3.5" }: { className?: string }) {
@@ -61,13 +61,19 @@ export function CoupleSection({ groom, bride, quranVerse }: CoupleSectionProps) 
         </p>
       </div>
 
-      {/* Groom & Bride Grid with Syar'i Vector Illustrations */}
+      {/* Groom & Bride Grid with Syar'i Illustration Avatars */}
       <div className="grid grid-cols-1 md:grid-cols-2 gap-8 md:gap-8 items-center max-w-3xl mx-auto">
         {/* Groom Card */}
         <div className="flex flex-col items-center p-8 rounded-3xl glass-card ornate-border hover:shadow-xl transition-all duration-300 hover:-translate-y-1 group">
           <div className="relative w-44 h-44 sm:w-48 sm:h-48 p-1.5 rounded-full bg-gradient-to-tr from-gold-500 via-gold-200 to-islamic-forest shadow-lg mb-6 transition-transform duration-500 group-hover:scale-105">
-            <div className="w-full h-full rounded-full overflow-hidden border-2 border-white/90">
-              <GroomIllustration />
+            <div className="relative w-full h-full rounded-full overflow-hidden border-2 border-white/90">
+              <Image
+                src="/images/couple.jpg"
+                alt={groom.fullName}
+                fill
+                sizes="(max-width: 640px) 176px, 192px"
+                className="object-cover object-[75%_22%] scale-150 transition-transform duration-500 group-hover:scale-[1.6]"
+              />
             </div>
             <div className="absolute -bottom-2 -right-1 bg-islamic-emerald text-gold-300 p-2.5 rounded-full border border-gold-400 shadow-md">
               <RubElHizb className="w-4 h-4" />
@@ -104,8 +110,14 @@ export function CoupleSection({ groom, bride, quranVerse }: CoupleSectionProps) 
         {/* Bride Card */}
         <div className="flex flex-col items-center p-8 rounded-3xl glass-card ornate-border hover:shadow-xl transition-all duration-300 hover:-translate-y-1 group">
           <div className="relative w-44 h-44 sm:w-48 sm:h-48 p-1.5 rounded-full bg-gradient-to-tr from-gold-500 via-gold-200 to-islamic-forest shadow-lg mb-6 transition-transform duration-500 group-hover:scale-105">
-            <div className="w-full h-full rounded-full overflow-hidden border-2 border-white/90">
-              <BrideIllustration />
+            <div className="relative w-full h-full rounded-full overflow-hidden border-2 border-white/90">
+              <Image
+                src="/images/couple.jpg"
+                alt={bride.fullName}
+                fill
+                sizes="(max-width: 640px) 176px, 192px"
+                className="object-cover object-[25%_38%] scale-150 transition-transform duration-500 group-hover:scale-[1.6]"
+              />
             </div>
             <div className="absolute -bottom-2 -right-1 bg-islamic-emerald text-gold-300 p-2.5 rounded-full border border-gold-400 shadow-md">
               <Heart className="w-4 h-4 fill-gold-300" />

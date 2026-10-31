@@ -295,3 +295,4 @@ export function CoupleMonogramCrest({ className = "w-64 h-64" }: { className?: s
     </div>
   );
 }
+
