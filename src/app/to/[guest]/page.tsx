@@ -15,6 +15,8 @@ import { AdabWalimahSection } from "@/components/AdabWalimahSection";
 import { RsvpGuestbook } from "@/components/RsvpGuestbook";
 import { ClosingSection } from "@/components/ClosingSection";
 import { BottomNav } from "@/components/BottomNav";
+import { ScrollProgress } from "@/components/ScrollProgress";
+import { GoldenStardust } from "@/components/GoldenStardust";
 
 interface PageProps {
   params: Promise<{
@@ -51,6 +53,14 @@ export default function GuestPersonalPage({ params }: PageProps) {
         isOpen={isCoverOpen}
         onOpen={handleOpenInvitation}
       />
+
+      {/* Luxury Scroll Reading Progress & Ambient Stardust */}
+      {isCoverOpen && (
+        <>
+          <ScrollProgress />
+          <GoldenStardust />
+        </>
+      )}
 
       {/* Floating Audio Controller */}
       {isCoverOpen && (

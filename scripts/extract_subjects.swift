@@ -57,3 +57,4 @@ let brideOutput = "/Users/saefulhusna/Documents/Project/Website/Undangan/public/
 
 processImage(inputPath: groomInput, outputPath: groomOutput)
 processImage(inputPath: brideInput, outputPath: brideOutput)
+

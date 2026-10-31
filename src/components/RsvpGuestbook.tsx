@@ -4,6 +4,7 @@ import React, { useState, useEffect } from "react";
 import confetti from "canvas-confetti";
 import { Send, CheckCircle2, MessageSquareHeart, User, Users, Cloud, Check } from "lucide-react";
 import { SectionDivider, RubElHizb } from "./IslamicOrnaments";
+import { ScrollReveal } from "./ScrollReveal";
 import { db } from "@/lib/firebase";
 import { collection, addDoc, query, orderBy, onSnapshot, serverTimestamp } from "firebase/firestore";
 
@@ -199,13 +200,16 @@ export function RsvpGuestbook({ initialGuestName = "" }: RsvpGuestbookProps) {
 
   return (
     <section className="py-16 px-4 max-w-3xl mx-auto pb-28" id="rsvp">
-      <SectionDivider
-        title="Konfirmasi Kehadiran & Doa Restu"
-        subtitle="Buku Tamu Digital & Untaian Doa Kebahagiaan"
-      />
+      <ScrollReveal animation="fade-up">
+        <SectionDivider
+          title="Konfirmasi Kehadiran & Doa Restu"
+          subtitle="Buku Tamu Digital & Untaian Doa Kebahagiaan"
+        />
+      </ScrollReveal>
 
       {/* RSVP Form Card */}
-      <div className="p-6 sm:p-8 rounded-3xl glass-card ornate-border shadow-md">
+      <ScrollReveal animation="fade-up" delay={150}>
+        <div className="p-6 sm:p-8 rounded-3xl glass-card ornate-border shadow-md">
         <form onSubmit={handleSubmit} className="space-y-5">
           {/* Guest Name */}
           <div>
@@ -321,9 +325,11 @@ export function RsvpGuestbook({ initialGuestName = "" }: RsvpGuestbookProps) {
           </div>
         )}
       </div>
+      </ScrollReveal>
 
       {/* Wishes List with Avatars */}
-      <div className="mt-8 space-y-3">
+      <ScrollReveal animation="fade-up" delay={250}>
+        <div className="mt-8 space-y-3">
         <div className="flex items-center justify-between px-2">
           <div className="flex items-center gap-2 text-xs font-bold uppercase tracking-wider text-gold-700">
             <MessageSquareHeart className="w-4 h-4 text-gold-600" />
@@ -366,6 +372,7 @@ export function RsvpGuestbook({ initialGuestName = "" }: RsvpGuestbookProps) {
           ))}
         </div>
       </div>
+      </ScrollReveal>
     </section>
   );
 }
