@@ -26,8 +26,8 @@ export function LoveStorySection({ stories }: LoveStorySectionProps) {
             className="w-full"
           >
             <div className="relative group">
-              {/* Timeline Star Marker with Radiant Pulse */}
-              <div className="absolute -left-[31px] sm:-left-[39px] top-1.5 w-6 h-6 rounded-full bg-islamic-ivory border-2 border-gold-500 flex items-center justify-center text-gold-600 shadow-sm transition-all duration-300 group-hover:scale-125 group-hover:border-gold-600 group-hover:shadow-[0_0_8px_rgba(213,164,56,0.6)]">
+              {/* Timeline Star Marker with Radiant Pulse - Exactly centered on border */}
+              <div className="absolute -left-[37px] sm:-left-[45px] top-1.5 w-6 h-6 rounded-full bg-islamic-ivory border-2 border-gold-500 flex items-center justify-center text-gold-600 shadow-sm transition-all duration-300 group-hover:scale-125 group-hover:border-gold-600 group-hover:shadow-[0_0_8px_rgba(213,164,56,0.6)]">
                 <RubElHizb className="w-3.5 h-3.5" />
               </div>
 

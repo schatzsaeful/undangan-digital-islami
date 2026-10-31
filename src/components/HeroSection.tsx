@@ -31,15 +31,15 @@ export function HeroSection({ groom, bride, mainDateFormatted }: HeroSectionProp
 
         {/* Hero Arch Frame with Syar'i Couple Illustration */}
         <ScrollReveal animation="scale-up" delay={200} duration={800} className="my-6 sm:my-8">
-          <div className="relative w-64 h-80 sm:w-72 sm:h-96 rounded-t-full rounded-b-3xl overflow-hidden p-2 bg-gradient-to-b from-gold-400 via-gold-200 to-islamic-forest shadow-2xl animate-float">
+          <div className="relative w-72 sm:w-80 h-84 sm:h-96 rounded-t-full rounded-b-3xl overflow-hidden p-2 bg-gradient-to-b from-gold-400 via-gold-200 to-islamic-forest shadow-2xl animate-float">
             <div className="relative w-full h-full rounded-t-full rounded-b-2xl overflow-hidden border-2 border-white/95">
               <Image
                 src="/images/couple.jpg"
                 alt={`${groom.nickName} & ${bride.nickName}`}
                 fill
                 priority
-                sizes="(max-width: 640px) 256px, 288px"
-                className="object-cover object-[50%_15%] transition-transform duration-700 hover:scale-105"
+                sizes="(max-width: 640px) 288px, 320px"
+                className="object-cover object-[50%_10%] transition-transform duration-700 hover:scale-105"
               />
             </div>
           </div>
@@ -58,54 +58,6 @@ export function HeroSection({ groom, bride, mainDateFormatted }: HeroSectionProp
               {mainDateFormatted}
             </p>
           </div>
-        </ScrollReveal>
-
-        {/* Navigation Shortcut Pills */}
-        <ScrollReveal animation="fade-up" delay={400} duration={700}>
-          <nav className="flex flex-wrap items-center justify-center gap-2 mt-8 text-xs font-semibold">
-          <a
-            href="#mempelai"
-            className="px-3.5 py-1.5 rounded-full bg-white/90 hover:bg-gold-50 text-islamic-emerald border border-gold-300 shadow-sm transition-all hover:scale-105 active:scale-95"
-          >
-            Mempelai
-          </a>
-          <a
-            href="#acara"
-            className="px-3.5 py-1.5 rounded-full bg-white/90 hover:bg-gold-50 text-islamic-emerald border border-gold-300 shadow-sm transition-all hover:scale-105 active:scale-95"
-          >
-            Acara
-          </a>
-          <a
-            href="#cerita"
-            className="px-3.5 py-1.5 rounded-full bg-white/90 hover:bg-gold-50 text-islamic-emerald border border-gold-300 shadow-sm transition-all hover:scale-105 active:scale-95"
-          >
-            Kisah Ta&apos;aruf
-          </a>
-          <a
-            href="#nasihat"
-            className="px-3.5 py-1.5 rounded-full bg-white/90 hover:bg-gold-50 text-islamic-emerald border border-gold-300 shadow-sm transition-all hover:scale-105 active:scale-95"
-          >
-            Mutiara Sunnah
-          </a>
-          <a
-            href="#adab"
-            className="px-3.5 py-1.5 rounded-full bg-white/90 hover:bg-gold-50 text-islamic-emerald border border-gold-300 shadow-sm transition-all hover:scale-105 active:scale-95"
-          >
-            Adab Walimah
-          </a>
-          <a
-            href="#amplop"
-            className="px-3.5 py-1.5 rounded-full bg-white/90 hover:bg-gold-50 text-islamic-emerald border border-gold-300 shadow-sm transition-all hover:scale-105 active:scale-95"
-          >
-            Tanda Kasih
-          </a>
-          <a
-            href="#rsvp"
-            className="px-3.5 py-1.5 rounded-full bg-gold-gradient hover:bg-gold-gradient-shine text-islamic-emerald font-bold shadow-sm transition-all hover:scale-105 active:scale-95"
-          >
-            Buku Tamu
-          </a>
-        </nav>
         </ScrollReveal>
       </div>
     </section>

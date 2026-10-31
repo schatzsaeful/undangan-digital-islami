@@ -60,7 +60,7 @@ export function BottomNav() {
             aria-label={`Navigasi ke ${item.label}`}
           >
             <Icon className={`w-4 h-4 mb-0.5 ${isActive ? "text-gold-300 scale-110" : "text-islamic-sage"}`} />
-            <span className="hidden xs:inline whitespace-nowrap">{item.label}</span>
+            <span className="hidden sm:inline whitespace-nowrap">{item.label}</span>
           </button>
         );
       })}

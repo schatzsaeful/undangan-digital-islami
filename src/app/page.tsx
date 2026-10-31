@@ -7,6 +7,7 @@ import { Cover } from "@/components/Cover";
 import { AudioPlayer } from "@/components/AudioPlayer";
 import { HeroSection } from "@/components/HeroSection";
 import { CountdownTimer } from "@/components/CountdownTimer";
+import { QuickNav } from "@/components/QuickNav";
 import { CoupleSection } from "@/components/CoupleSection";
 import { EventSection } from "@/components/EventSection";
 import { LoveStorySection } from "@/components/LoveStorySection";
@@ -78,6 +79,9 @@ function InvitationContent() {
           targetDate={invitationConfig.mainDate}
           calendarUrl={invitationConfig.events.akad.calendarUrl}
         />
+
+        {/* Quick Section Navigation Shortcuts */}
+        <QuickNav />
 
         {/* Bride & Groom Details */}
         <CoupleSection

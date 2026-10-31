@@ -4,25 +4,27 @@ export function BismillahCalligraphy({ className = "w-64 text-gold-400" }: { cla
   return (
     <div className={`flex flex-col items-center justify-center py-2 ${className}`}>
       {/* Clean Arabic Calligraphy Typography */}
-      <p className="font-arabic text-2xl sm:text-3xl md:text-4xl text-center leading-loose tracking-wider text-gold-600 font-bold select-none px-4">
+      <p className="font-arabic text-2xl sm:text-3xl md:text-4xl text-center leading-loose tracking-wider text-current font-bold select-none px-4">
         بِسْمِ اللَّهِ الرَّحْمَٰنِ الرَّحِيمِ
       </p>
-      <div className="flex items-center gap-3 mt-3 sm:mt-4">
-        <span className="h-[1px] w-14 sm:w-20 bg-gradient-to-r from-transparent to-gold-400"></span>
-        <RubElHizb className="w-3.5 h-3.5 text-gold-500" />
-        <span className="h-[1px] w-14 sm:w-20 bg-gradient-to-l from-transparent to-gold-400"></span>
+      <div className="flex items-center justify-center gap-3 mt-3 sm:mt-4">
+        <span className="h-[1px] w-14 sm:w-20 bg-gradient-to-r from-transparent to-current opacity-70"></span>
+        <RubElHizb className="w-3.5 h-3.5 text-current" />
+        <span className="h-[1px] w-14 sm:w-20 bg-gradient-to-l from-transparent to-current opacity-70"></span>
       </div>
     </div>
   );
 }
 
-// 8-Pointed Islamic Star (Rub el Hizb)
+// 8-Pointed Islamic Star (Rub el Hizb) with genuine transparent center
 export function RubElHizb({ className = "w-6 h-6 text-gold-500" }: { className?: string }) {
   return (
     <svg viewBox="0 0 100 100" fill="currentColor" className={className} xmlns="http://www.w3.org/2000/svg">
-      <rect x="25" y="25" width="50" height="50" rx="3" transform="rotate(0 50 50)" />
-      <rect x="25" y="25" width="50" height="50" rx="3" transform="rotate(45 50 50)" />
-      <circle cx="50" cy="50" r="10" fill="#fdfbf7" />
+      <path
+        fillRule="evenodd"
+        clipRule="evenodd"
+        d="M 50.0 4.0 L 62.6 19.5 L 82.5 17.5 L 80.5 37.4 L 96.0 50.0 L 80.5 62.6 L 82.5 82.5 L 62.6 80.5 L 50.0 96.0 L 37.4 80.5 L 17.5 82.5 L 19.5 62.6 L 4.0 50.0 L 19.5 37.4 L 17.5 17.5 L 37.4 19.5 Z M 50 39 A 11 11 0 1 0 50 61 A 11 11 0 1 0 50 39 Z"
+      />
     </svg>
   );
 }
@@ -55,30 +57,30 @@ export function CornerFlourish({ position }: { position: "top-left" | "top-right
       case "top-left":
         return "";
       case "top-right":
-        return "scale-x-[-1]";
+        return "-scale-x-100";
       case "bottom-left":
-        return "scale-y-[-1]";
+        return "-scale-y-100";
       case "bottom-right":
-        return "scale-[-1]";
+        return "-scale-100";
     }
   };
 
   const getPositionClass = () => {
     switch (position) {
       case "top-left":
-        return "top-3 left-3";
+        return "top-3 sm:top-4 left-3 sm:left-4";
       case "top-right":
-        return "top-3 right-3";
+        return "top-3 sm:top-4 right-3 sm:right-4";
       case "bottom-left":
-        return "bottom-3 left-3";
+        return "bottom-3 sm:bottom-4 left-3 sm:left-4";
       case "bottom-right":
-        return "bottom-3 right-3";
+        return "bottom-3 sm:bottom-4 right-3 sm:right-4";
     }
   };
 
   return (
-    <div className={`absolute ${getPositionClass()} ${getTransform()} pointer-events-none z-10 w-12 h-12 md:w-16 md:h-16 opacity-75`}>
-      <svg viewBox="0 0 100 100" fill="none" xmlns="http://www.w3.org/2000/svg" className="w-full h-full text-gold-500">
+    <div className={`absolute ${getPositionClass()} ${getTransform()} pointer-events-none z-10 w-10 h-10 sm:w-14 sm:h-14 opacity-75`}>
+      <svg viewBox="0 0 100 100" fill="none" xmlns="http://www.w3.org/2000/svg" className="w-full h-full text-gold-400">
         <path
           d="M5 5 H 55 C 55 5, 20 20, 20 55 V 95"
           stroke="currentColor"

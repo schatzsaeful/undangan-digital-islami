@@ -19,7 +19,7 @@ export function EventSection({ akad, resepsi }: EventSectionProps) {
         />
       </ScrollReveal>
 
-      <div className="grid grid-cols-1 md:grid-cols-2 gap-8 mt-10">
+      <div className="grid grid-cols-1 md:grid-cols-2 gap-8 mt-10 items-stretch">
         {/* Akad Nikah */}
         <ScrollReveal animation="fade-up" delay={150} className="w-full h-full flex flex-col">
           <div className="relative p-6 sm:p-8 rounded-3xl glass-card border border-gold-300/60 shadow-md flex flex-col justify-between hover:shadow-xl transition-all duration-300 h-full group hover:-translate-y-1">

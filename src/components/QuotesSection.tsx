@@ -37,7 +37,7 @@ export function QuotesSection() {
         />
       </ScrollReveal>
 
-      <div className="grid grid-cols-1 md:grid-cols-3 gap-6 mt-10">
+      <div className="grid grid-cols-1 md:grid-cols-3 gap-6 mt-10 items-stretch">
         {ISLAMIC_QUOTES.map((item, index) => {
           const Icon = item.icon;
           return (

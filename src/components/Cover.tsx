@@ -31,32 +31,33 @@ export function Cover({ guestName, groomNick, brideNick, weddingDate, isOpen, on
 
   return (
     <div
-      className={`fixed inset-0 z-50 flex items-center justify-center bg-islamic-emerald text-islamic-ivory transition-all duration-1000 ease-in-out px-4 overflow-hidden ${
+      className={`fixed inset-0 z-50 flex items-center justify-center bg-islamic-emerald text-islamic-ivory transition-all duration-1000 ease-in-out px-4 overflow-y-auto py-8 sm:py-12 ${
         isOpen ? "-translate-y-full opacity-0 pointer-events-none" : "translate-y-0 opacity-100"
       }`}
       style={{
         backgroundImage: `radial-gradient(circle at center, #163832 0%, #0B2B26 65%, #061713 100%)`,
       }}
     >
-      <CornerFlourish position="top-left" />
-      <CornerFlourish position="top-right" />
-      <CornerFlourish position="bottom-left" />
-      <CornerFlourish position="bottom-right" />
+      {/* Decorative center frame with double ornate border & corner flourishes */}
+      <div className="relative max-w-lg w-full my-auto py-10 px-6 sm:px-10 text-center rounded-[2.5rem] glass-card-dark ornate-border-dark shadow-2xl flex flex-col items-center animate-fade-up">
+        {/* Corner Flourishes framing the card */}
+        <CornerFlourish position="top-left" />
+        <CornerFlourish position="top-right" />
+        <CornerFlourish position="bottom-left" />
+        <CornerFlourish position="bottom-right" />
 
-      {/* Decorative center frame with double ornate border */}
-      <div className="relative max-w-lg w-full py-10 px-6 sm:px-10 text-center rounded-[2.5rem] glass-card-dark ornate-border-dark shadow-2xl flex flex-col items-center animate-fade-up">
         {/* Subtle decorative top badge */}
-        <div className="inline-flex items-center gap-2 px-5 py-2 rounded-full border border-gold-400/50 bg-gold-500/15 text-gold-300 text-xs tracking-widest uppercase mb-6 sm:mb-7 shadow-sm">
+        <div className="inline-flex items-center gap-2 px-5 py-2 rounded-full border border-gold-400/50 bg-gold-500/15 text-gold-300 text-xs tracking-widest uppercase mb-5 sm:mb-6 shadow-sm">
           <Sparkles className="w-3.5 h-3.5 text-gold-400 animate-pulse" />
           <span>Walimatul &apos;Urs</span>
           <Sparkles className="w-3.5 h-3.5 text-gold-400 animate-pulse" />
         </div>
 
         {/* Bismillah */}
-        <BismillahCalligraphy className="w-full text-gold-400 my-4 sm:my-6 scale-90 sm:scale-100" />
+        <BismillahCalligraphy className="w-full text-gold-300 my-3 sm:my-5 scale-90 sm:scale-100" />
 
         {/* Couple Names */}
-        <div className="space-y-1 mb-6">
+        <div className="space-y-1 mb-5 sm:mb-6">
           <p className="text-xs uppercase tracking-widest text-gold-200/80 font-sans">
             Undangan Pernikahan
           </p>
@@ -69,14 +70,14 @@ export function Cover({ guestName, groomNick, brideNick, weddingDate, isOpen, on
         </div>
 
         {/* Divider */}
-        <div className="flex items-center justify-center gap-3 w-40 my-2">
+        <div className="flex items-center justify-center gap-3 w-40 my-1">
           <div className="h-[1px] flex-1 bg-gradient-to-r from-transparent to-gold-400" />
           <RubElHizb className="w-3.5 h-3.5 text-gold-400" />
           <div className="h-[1px] flex-1 bg-gradient-to-l from-transparent to-gold-400" />
         </div>
 
         {/* Guest Recipient Box */}
-        <div className="w-full max-w-sm my-6 p-4 sm:p-5 rounded-2xl bg-islamic-deep/70 border border-gold-400/30 text-center shadow-inner">
+        <div className="w-full max-w-sm my-5 p-4 sm:p-5 rounded-2xl bg-islamic-deep/70 border border-gold-400/30 text-center shadow-inner">
           <p className="text-[11px] text-gold-200/80 uppercase tracking-widest mb-1.5 font-sans">
             Kepada Yth. Bapak/Ibu/Saudara/i:
           </p>
@@ -100,7 +101,7 @@ export function Cover({ guestName, groomNick, brideNick, weddingDate, isOpen, on
           <Heart className="w-3.5 h-3.5 text-islamic-emerald fill-islamic-emerald opacity-75" />
         </button>
 
-        <p className="text-[11px] text-gold-200/60 mt-6 tracking-wider font-sans">
+        <p className="text-[11px] text-gold-200/60 mt-5 sm:mt-6 tracking-wider font-sans">
           Sentuh tombol untuk membuka &amp; mendengarkan alunan musik
         </p>
       </div>

@@ -67,45 +67,47 @@ export function CoupleSection({ groom, bride, quranVerse }: CoupleSectionProps) 
       </ScrollReveal>
 
       {/* Groom & Bride Grid with Separate Syar'i Illustration Avatars */}
-      <div className="grid grid-cols-1 md:grid-cols-2 gap-8 md:gap-8 items-center max-w-3xl mx-auto">
+      <div className="grid grid-cols-1 md:grid-cols-2 gap-8 items-stretch max-w-3xl mx-auto">
         {/* Groom Card */}
-        <ScrollReveal animation="fade-up" delay={150} className="w-full">
-          <div className="flex flex-col items-center p-8 rounded-3xl glass-card ornate-border hover:shadow-xl transition-all duration-300 hover:-translate-y-1 group">
-            <div className="relative w-44 h-44 sm:w-48 sm:h-48 p-1.5 rounded-full bg-gradient-to-tr from-gold-500 via-gold-200 to-islamic-forest shadow-lg mb-6 transition-transform duration-500 group-hover:scale-105">
-              <div className="relative w-full h-full rounded-full overflow-hidden border-2 border-white/90 bg-gradient-to-b from-[#eaf2ee] via-[#f7f5ef] to-[#efe9dc]">
-                <Image
-                  src="/images/groom-avatar.png"
-                  alt={groom.fullName}
-                  fill
-                  sizes="(max-width: 640px) 176px, 192px"
-                  className="object-contain p-1.5 transition-transform duration-500 group-hover:scale-105"
-                />
+        <ScrollReveal animation="fade-up" delay={150} className="w-full h-full flex flex-col">
+          <div className="flex flex-col items-center justify-between p-8 rounded-3xl glass-card ornate-border hover:shadow-xl transition-all duration-300 hover:-translate-y-1 group h-full">
+            <div className="flex flex-col items-center w-full">
+              <div className="relative w-44 h-44 sm:w-48 sm:h-48 p-1.5 rounded-full bg-gradient-to-tr from-gold-500 via-gold-200 to-islamic-forest shadow-lg mb-6 transition-transform duration-500 group-hover:scale-105">
+                <div className="relative w-full h-full rounded-full overflow-hidden border-2 border-white/90 bg-gradient-to-b from-[#eaf2ee] via-[#f7f5ef] to-[#efe9dc]">
+                  <Image
+                    src="/images/groom-avatar.png"
+                    alt={groom.fullName}
+                    fill
+                    sizes="(max-width: 640px) 176px, 192px"
+                    className="object-contain p-1.5 transition-transform duration-500 group-hover:scale-105"
+                  />
+                </div>
+                <div className="absolute -bottom-2 -right-1 bg-islamic-emerald text-gold-300 p-2.5 rounded-full border border-gold-400 shadow-md">
+                  <RubElHizb className="w-4 h-4" />
+                </div>
               </div>
-              <div className="absolute -bottom-2 -right-1 bg-islamic-emerald text-gold-300 p-2.5 rounded-full border border-gold-400 shadow-md">
-                <RubElHizb className="w-4 h-4" />
-              </div>
-            </div>
 
-            <h3 className="font-serif text-2xl font-bold text-islamic-emerald group-hover:text-gold-700 transition-colors">
-              {groom.fullName}
-            </h3>
-            <p className="text-xs uppercase tracking-widest text-gold-600 font-semibold my-1 font-sans">
-              ({groom.nickName})
-            </p>
-            <p className="text-xs sm:text-sm text-islamic-forest/80 font-sans mt-2">
-              {groom.orderInFamily}:
-            </p>
-            <p className="text-sm font-semibold text-islamic-emerald mt-0.5">
-              Bpk. {groom.fatherName}
-              <br />&amp; Ibu {groom.motherName}
-            </p>
+              <h3 className="font-serif text-2xl font-bold text-islamic-emerald group-hover:text-gold-700 transition-colors">
+                {groom.fullName}
+              </h3>
+              <p className="text-xs uppercase tracking-widest text-gold-600 font-semibold my-1 font-sans">
+                ({groom.nickName})
+              </p>
+              <p className="text-xs sm:text-sm text-islamic-forest/80 font-sans mt-2">
+                {groom.orderInFamily}:
+              </p>
+              <p className="text-sm font-semibold text-islamic-emerald mt-0.5">
+                Bpk. {groom.fatherName}
+                <br />&amp; Ibu {groom.motherName}
+              </p>
+            </div>
 
             {groom.instagram && (
               <a
                 href={groom.instagram}
                 target="_blank"
                 rel="noopener noreferrer"
-                className="mt-5 inline-flex items-center gap-1.5 text-xs text-gold-800 hover:text-gold-950 bg-gold-50 hover:bg-gold-100 border border-gold-300 px-4 py-1.5 rounded-full transition-colors font-medium shadow-sm active:scale-95"
+                className="mt-6 inline-flex items-center gap-1.5 text-xs text-gold-800 hover:text-gold-950 bg-gold-50 hover:bg-gold-100 border border-gold-300 px-4 py-1.5 rounded-full transition-colors font-medium shadow-sm active:scale-95"
               >
                 <InstagramIcon className="w-3.5 h-3.5" />
                 <span>Instagram</span>
@@ -115,43 +117,45 @@ export function CoupleSection({ groom, bride, quranVerse }: CoupleSectionProps) 
         </ScrollReveal>
 
         {/* Bride Card */}
-        <ScrollReveal animation="fade-up" delay={300} className="w-full">
-          <div className="flex flex-col items-center p-8 rounded-3xl glass-card ornate-border hover:shadow-xl transition-all duration-300 hover:-translate-y-1 group">
-            <div className="relative w-44 h-44 sm:w-48 sm:h-48 p-1.5 rounded-full bg-gradient-to-tr from-gold-500 via-gold-200 to-islamic-forest shadow-lg mb-6 transition-transform duration-500 group-hover:scale-105">
-              <div className="relative w-full h-full rounded-full overflow-hidden border-2 border-white/90 bg-gradient-to-b from-[#eaf2ee] via-[#f7f5ef] to-[#efe9dc]">
-                <Image
-                  src="/images/bride-avatar.png"
-                  alt={bride.fullName}
-                  fill
-                  sizes="(max-width: 640px) 176px, 192px"
-                  className="object-contain p-1.5 transition-transform duration-500 group-hover:scale-105"
-                />
+        <ScrollReveal animation="fade-up" delay={300} className="w-full h-full flex flex-col">
+          <div className="flex flex-col items-center justify-between p-8 rounded-3xl glass-card ornate-border hover:shadow-xl transition-all duration-300 hover:-translate-y-1 group h-full">
+            <div className="flex flex-col items-center w-full">
+              <div className="relative w-44 h-44 sm:w-48 sm:h-48 p-1.5 rounded-full bg-gradient-to-tr from-gold-500 via-gold-200 to-islamic-forest shadow-lg mb-6 transition-transform duration-500 group-hover:scale-105">
+                <div className="relative w-full h-full rounded-full overflow-hidden border-2 border-white/90 bg-gradient-to-b from-[#eaf2ee] via-[#f7f5ef] to-[#efe9dc]">
+                  <Image
+                    src="/images/bride-avatar.png"
+                    alt={bride.fullName}
+                    fill
+                    sizes="(max-width: 640px) 176px, 192px"
+                    className="object-contain p-1.5 transition-transform duration-500 group-hover:scale-105"
+                  />
+                </div>
+                <div className="absolute -bottom-2 -right-1 bg-islamic-emerald text-gold-300 p-2.5 rounded-full border border-gold-400 shadow-md">
+                  <Heart className="w-4 h-4 fill-gold-300" />
+                </div>
               </div>
-              <div className="absolute -bottom-2 -right-1 bg-islamic-emerald text-gold-300 p-2.5 rounded-full border border-gold-400 shadow-md">
-                <Heart className="w-4 h-4 fill-gold-300" />
-              </div>
-            </div>
 
-            <h3 className="font-serif text-2xl font-bold text-islamic-emerald group-hover:text-gold-700 transition-colors">
-              {bride.fullName}
-            </h3>
-            <p className="text-xs uppercase tracking-widest text-gold-600 font-semibold my-1 font-sans">
-              ({bride.nickName})
-            </p>
-            <p className="text-xs sm:text-sm text-islamic-forest/80 font-sans mt-2">
-              {bride.orderInFamily}:
-            </p>
-            <p className="text-sm font-semibold text-islamic-emerald mt-0.5">
-              Bpk. {bride.fatherName}
-              <br />&amp; Ibu {bride.motherName}
-            </p>
+              <h3 className="font-serif text-2xl font-bold text-islamic-emerald group-hover:text-gold-700 transition-colors">
+                {bride.fullName}
+              </h3>
+              <p className="text-xs uppercase tracking-widest text-gold-600 font-semibold my-1 font-sans">
+                ({bride.nickName})
+              </p>
+              <p className="text-xs sm:text-sm text-islamic-forest/80 font-sans mt-2">
+                {bride.orderInFamily}:
+              </p>
+              <p className="text-sm font-semibold text-islamic-emerald mt-0.5">
+                Bpk. {bride.fatherName}
+                <br />&amp; Ibu {bride.motherName}
+              </p>
+            </div>
 
             {bride.instagram && (
               <a
                 href={bride.instagram}
                 target="_blank"
                 rel="noopener noreferrer"
-                className="mt-5 inline-flex items-center gap-1.5 text-xs text-gold-800 hover:text-gold-950 bg-gold-50 hover:bg-gold-100 border border-gold-300 px-4 py-1.5 rounded-full transition-colors font-medium shadow-sm active:scale-95"
+                className="mt-6 inline-flex items-center gap-1.5 text-xs text-gold-800 hover:text-gold-950 bg-gold-50 hover:bg-gold-100 border border-gold-300 px-4 py-1.5 rounded-full transition-colors font-medium shadow-sm active:scale-95"
               >
                 <InstagramIcon className="w-3.5 h-3.5" />
                 <span>Instagram</span>

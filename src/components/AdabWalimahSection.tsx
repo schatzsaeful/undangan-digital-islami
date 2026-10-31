@@ -25,13 +25,13 @@ export function AdabWalimahSection({ items }: AdabWalimahProps) {
         />
       </ScrollReveal>
 
-      <div className="grid grid-cols-1 sm:grid-cols-2 gap-4 sm:gap-6 mt-10">
+      <div className="grid grid-cols-1 sm:grid-cols-2 gap-4 sm:gap-6 mt-10 items-stretch">
         {items.map((item, index) => (
           <ScrollReveal
             key={index}
             animation="fade-up"
             delay={index * 120}
-            className="w-full"
+            className="w-full h-full flex flex-col"
           >
             <div className="flex items-start gap-4 p-5 rounded-2xl glass-card border border-gold-300/40 hover:border-gold-400 transition-all duration-300 shadow-sm hover:shadow-md hover:-translate-y-1 h-full group">
               <div className="p-3 rounded-2xl bg-islamic-emerald/10 border border-gold-400/40 shrink-0 group-hover:scale-110 transition-transform">
