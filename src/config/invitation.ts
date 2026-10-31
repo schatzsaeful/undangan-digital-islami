@@ -85,7 +85,7 @@ export const invitationConfig: InvitationConfig = {
   meta: {
     title: "Walimatul 'Urs | Heri & Asri",
     description: "Undangan Pernikahan Islami Modern & Elegan - Heri Rahmat Susanto & Asri Agustini",
-    ogImage: "https://walimatulurs-heri-asri.vercel.app/images/couple.jpg",
+    ogImage: "https://walimatulurs-heri-asri.vercel.app/images/og-banner.jpg",
     url: "https://walimatulurs-heri-asri.vercel.app",
   },
   audio: {

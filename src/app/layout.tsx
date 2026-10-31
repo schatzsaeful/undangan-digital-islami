@@ -1,6 +1,12 @@
-import type { Metadata } from "next";
+import type { Metadata, Viewport } from "next";
 import "./globals.css";
 import { invitationConfig } from "@/config/invitation";
+
+export const viewport: Viewport = {
+  themeColor: "#0B2B26",
+  width: "device-width",
+  initialScale: 1,
+};
 
 export const metadata: Metadata = {
   title: invitationConfig.meta.title,
@@ -13,10 +19,11 @@ export const metadata: Metadata = {
     siteName: invitationConfig.meta.title,
     images: [
       {
-        url: invitationConfig.meta.ogImage,
+        url: "/images/og-banner.jpg",
         width: 1200,
         height: 630,
-        alt: invitationConfig.meta.title,
+        type: "image/jpeg",
+        alt: "Walimatul 'Urs Heri & Asri",
       },
     ],
     locale: "id_ID",
@@ -26,7 +33,10 @@ export const metadata: Metadata = {
     card: "summary_large_image",
     title: invitationConfig.meta.title,
     description: invitationConfig.meta.description,
-    images: [invitationConfig.meta.ogImage],
+    images: ["/images/og-banner.jpg"],
+  },
+  other: {
+    "format-detection": "telephone=no, address=no, email=no",
   },
 };
 

@@ -1,23 +1,6 @@
-"use client";
-
-import React, { useState, use } from "react";
+import type { Metadata } from "next";
 import { invitationConfig } from "@/config/invitation";
-import { Cover } from "@/components/Cover";
-import { AudioPlayer } from "@/components/AudioPlayer";
-import { HeroSection } from "@/components/HeroSection";
-import { CountdownTimer } from "@/components/CountdownTimer";
-import { QuickNav } from "@/components/QuickNav";
-import { CoupleSection } from "@/components/CoupleSection";
-import { EventSection } from "@/components/EventSection";
-import { LoveStorySection } from "@/components/LoveStorySection";
-import { QuotesSection } from "@/components/QuotesSection";
-import { GiftSection } from "@/components/GiftSection";
-import { AdabWalimahSection } from "@/components/AdabWalimahSection";
-import { RsvpGuestbook } from "@/components/RsvpGuestbook";
-import { ClosingSection } from "@/components/ClosingSection";
-import { BottomNav } from "@/components/BottomNav";
-import { ScrollProgress } from "@/components/ScrollProgress";
-import { GoldenStardust } from "@/components/GoldenStardust";
+import { GuestPersonalInvitation } from "./GuestPersonalInvitation";
 
 interface PageProps {
   params: Promise<{
@@ -25,103 +8,48 @@ interface PageProps {
   }>;
 }
 
-export default function GuestPersonalPage({ params }: PageProps) {
-  const resolvedParams = use(params);
-  // Decode URL parameter e.g. "Bapak-Haji-Ahmad" or "Bapak%20Haji%20Ahmad"
+export async function generateMetadata({ params }: PageProps): Promise<Metadata> {
+  const resolvedParams = await params;
   const rawName = resolvedParams.guest || "";
   const guestName = decodeURIComponent(rawName).replace(/-/g, " ");
 
-  const [isCoverOpen, setIsCoverOpen] = useState(false);
-  const [isPlayingAudio, setIsPlayingAudio] = useState(false);
+  const title = `Undangan Walimatul 'Urs Heri & Asri - Khusus: ${guestName}`;
+  const description = `Kepada Yth. ${guestName}. Tanpa mengurangi rasa hormat, kami mengundang Anda untuk menghadiri Walimatul 'Urs Syar'i Heri Rahmat Susanto & Asri Agustini • Sabtu, 12 Desember 2026.`;
+  const url = `${invitationConfig.meta.url}/to/${resolvedParams.guest}`;
 
-  const handleOpenInvitation = () => {
-    setIsCoverOpen(true);
-    setIsPlayingAudio(true);
+  return {
+    title,
+    description,
+    openGraph: {
+      title,
+      description,
+      url,
+      siteName: invitationConfig.meta.title,
+      images: [
+        {
+          url: "/images/og-banner.jpg",
+          width: 1200,
+          height: 630,
+          type: "image/jpeg",
+          alt: `Undangan Walimatul 'Urs Heri & Asri untuk ${guestName}`,
+        },
+      ],
+      locale: "id_ID",
+      type: "website",
+    },
+    twitter: {
+      card: "summary_large_image",
+      title,
+      description,
+      images: ["/images/og-banner.jpg"],
+    },
   };
-
-  const handleToggleAudio = () => {
-    setIsPlayingAudio((prev) => !prev);
-  };
-
-  return (
-    <div className="relative min-h-screen islamic-pattern">
-      {/* Interactive Cover Modal / Curtain with Guest Name */}
-      <Cover
-        guestName={guestName}
-        groomNick={invitationConfig.groom.nickName}
-        brideNick={invitationConfig.bride.nickName}
-        weddingDate={invitationConfig.events.akad.date}
-        isOpen={isCoverOpen}
-        onOpen={handleOpenInvitation}
-      />
-
-      {/* Luxury Scroll Reading Progress & Ambient Stardust */}
-      {isCoverOpen && (
-        <>
-          <ScrollProgress />
-          <GoldenStardust />
-        </>
-      )}
-
-      {/* Floating Audio Controller */}
-      {isCoverOpen && (
-        <AudioPlayer
-          src={invitationConfig.audio.src}
-          isPlaying={isPlayingAudio}
-          onTogglePlay={handleToggleAudio}
-        />
-      )}
-
-      {/* Main Invitation Sections */}
-      <main className="transition-opacity duration-700 ease-in-out">
-        <HeroSection
-          groom={invitationConfig.groom}
-          bride={invitationConfig.bride}
-          mainDateFormatted={invitationConfig.events.akad.date}
-        />
-
-        <CountdownTimer
-          targetDate={invitationConfig.mainDate}
-          calendarUrl={invitationConfig.events.akad.calendarUrl}
-        />
-
-        {/* Quick Section Navigation Shortcuts */}
-        <QuickNav />
-
-        <CoupleSection
-          groom={invitationConfig.groom}
-          bride={invitationConfig.bride}
-          quranVerse={invitationConfig.quranVerse}
-        />
-
-        <EventSection
-          akad={invitationConfig.events.akad}
-          resepsi={invitationConfig.events.resepsi}
-        />
-
-        <LoveStorySection stories={invitationConfig.stories} />
-
-        {/* Mutiara Sunnah & Hadits Pernikahan (Pengganti Galeri untuk Konsep Syar'i) */}
-        <QuotesSection />
-
-        <AdabWalimahSection items={invitationConfig.adabWalimah} />
-
-        <GiftSection
-          bankAccounts={invitationConfig.bankAccounts}
-          physicalGiftAddress={invitationConfig.physicalGiftAddress}
-        />
-
-        <RsvpGuestbook initialGuestName={guestName} />
-
-        <ClosingSection
-          groom={invitationConfig.groom}
-          bride={invitationConfig.bride}
-        />
-      </main>
-
-      {/* Sticky Bottom Navigation Dock */}
-      {isCoverOpen && <BottomNav />}
-    </div>
-  );
 }
 
+export default async function GuestPersonalPage({ params }: PageProps) {
+  const resolvedParams = await params;
+  const rawName = resolvedParams.guest || "";
+  const guestName = decodeURIComponent(rawName).replace(/-/g, " ");
+
+  return <GuestPersonalInvitation guestName={guestName} />;
+}
