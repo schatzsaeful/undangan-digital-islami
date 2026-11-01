@@ -19,6 +19,11 @@ import {
   UserCheck,
   RefreshCw,
   Search,
+  Settings,
+  RotateCcw,
+  Save,
+  CheckCircle,
+  Info,
 } from "lucide-react";
 import { invitationConfig } from "@/config/invitation";
 import { RubElHizb } from "@/components/IslamicOrnaments";
@@ -43,6 +48,69 @@ interface FirestoreWish {
   timestamp: string;
 }
 
+const DEFAULT_FORMAL_TEMPLATE = `Assalamu'alaikum Warahmatullahi Wabarakatuh
+
+{sapaan}
+*{nama}*
+
+Tanpa mengurangi rasa hormat, dengan memohon rahmat dan ridho Allah Subhanahu Wa Ta'ala, perkenankan kami mengundang Bapak/Ibu/Saudara/i untuk menghadiri acara Walimatul 'Urs putra-putri kami:
+
+*${invitationConfig.groom.fullName}*
+&
+*${invitationConfig.bride.fullName}*
+
+Insya Allah acara akan diselenggarakan pada:
+🗓️ *Hari/Tanggal:* {tanggal}
+⏰ *Waktu:* {waktu}
+📍 *Tempat:* {lokasi}
+
+Informasi detail mengenai rangkaian acara, denah lokasi, serta konfirmasi kehadiran (RSVP) dapat diakses melalui tautan undangan digital berikut:
+👉 {link}
+
+Merupakan suatu kehormatan dan kebahagiaan bagi kami apabila Bapak/Ibu/Saudara/i berkenan hadir serta memberikan doa restu kepada kedua mempelai.
+
+Semoga Allah Subhanahu Wa Ta'ala meridhoi niat suci ini dan membalas segala kebaikan Bapak/Ibu/Saudara/i. Aamiin Ya Rabbal 'Alamin.
+
+Wassalamu'alaikum Warahmatullahi Wabarakatuh.
+
+Kami yang berbahagia,
+*Keluarga Besar Bpk. ${invitationConfig.groom.fatherName} & Bpk. ${invitationConfig.bride.fatherName}*
+*${invitationConfig.groom.nickName} & ${invitationConfig.bride.nickName}*`;
+
+const DEFAULT_FRIENDLY_TEMPLATE = `Assalamu'alaikum Warahmatullahi Wabarakatuh ✨
+
+Halo *{nama}*,
+
+Alhamdulillah, dengan memohon ridho dan berkah Allah SWT, kami bermaksud menyelenggarakan acara pernikahan kami (Walimatul 'Urs):
+
+*${invitationConfig.groom.fullName}*
+&
+*${invitationConfig.bride.fullName}*
+
+🗓️ *Hari/Tgl:* {tanggal}
+⏰ *Waktu:* {waktu}
+📍 *Lokasi:* {lokasi}
+
+Detail acara, petunjuk arah lokasi, serta konfirmasi kehadiran (RSVP) dapat dilihat melalui tautan undangan berikut:
+👉 {link}
+
+Kehadiran serta doa restumu sangat bermakna dan menjadi kebahagiaan bagi kami. Terima kasih banyak ya! 🙏
+
+Wassalamu'alaikum Warahmatullahi Wabarakatuh.
+
+Salam hangat,
+*${invitationConfig.groom.nickName} & ${invitationConfig.bride.nickName}*`;
+
+const PLACEHOLDER_TAGS = [
+  { tag: "{nama}", desc: "Nama Tamu" },
+  { tag: "{sapaan}", desc: "Sapaan Hormat" },
+  { tag: "{link}", desc: "Tautan Undangan Tamu" },
+  { tag: "{tanggal}", desc: "Hari & Tanggal" },
+  { tag: "{waktu}", desc: "Waktu Acara" },
+  { tag: "{lokasi}", desc: "Nama & Alamat Tempat" },
+  { tag: "{mempelai}", desc: "Nama Singkat Mempelai" },
+];
+
 export default function MempelaiPortalPage() {
   const [activeTab, setActiveTab] = useState<"generator" | "rsvp">("generator");
 
@@ -56,6 +124,17 @@ export default function MempelaiPortalPage() {
   const [history, setHistory] = useState<SavedGuest[]>([]);
   const [baseUrl, setBaseUrl] = useState("https://walimatulurs-heri-asri.vercel.app");
 
+  // WhatsApp Templates Customization State
+  const [templates, setTemplates] = useState<{
+    formal: string;
+    friendly: string;
+  }>({
+    formal: DEFAULT_FORMAL_TEMPLATE,
+    friendly: DEFAULT_FRIENDLY_TEMPLATE,
+  });
+  const [isEditingTemplate, setIsEditingTemplate] = useState(false);
+  const [saveSuccessMsg, setSaveSuccessMsg] = useState(false);
+
   // RSVP Recap State
   const [wishes, setWishes] = useState<FirestoreWish[]>([]);
   const [isLoadingRsvp, setIsLoadingRsvp] = useState(true);
@@ -65,10 +144,26 @@ export default function MempelaiPortalPage() {
   useEffect(() => {
     if (typeof window !== "undefined") {
       setBaseUrl(window.location.origin);
+
+      // Load Guest History
       try {
-        const saved = localStorage.getItem("walimah_guest_history");
-        if (saved) {
-          setHistory(JSON.parse(saved));
+        const savedHistory = localStorage.getItem("walimah_guest_history");
+        if (savedHistory) {
+          setHistory(JSON.parse(savedHistory));
+        }
+      } catch {
+        // ignore
+      }
+
+      // Load Custom WhatsApp Templates
+      try {
+        const savedTemplates = localStorage.getItem("walimah_custom_wa_templates");
+        if (savedTemplates) {
+          const parsed = JSON.parse(savedTemplates);
+          setTemplates({
+            formal: parsed.formal || DEFAULT_FORMAL_TEMPLATE,
+            friendly: parsed.friendly || DEFAULT_FRIENDLY_TEMPLATE,
+          });
         }
       } catch {
         // ignore
@@ -125,6 +220,41 @@ export default function MempelaiPortalPage() {
     }
   };
 
+  const handleSaveTemplate = () => {
+    try {
+      localStorage.setItem("walimah_custom_wa_templates", JSON.stringify(templates));
+      setSaveSuccessMsg(true);
+      setTimeout(() => setSaveSuccessMsg(false), 3000);
+    } catch (err) {
+      console.error("Failed to save custom templates:", err);
+    }
+  };
+
+  const handleResetTemplate = () => {
+    const defaultVal = tone === "formal" ? DEFAULT_FORMAL_TEMPLATE : DEFAULT_FRIENDLY_TEMPLATE;
+    const updated = {
+      ...templates,
+      [tone]: defaultVal,
+    };
+    setTemplates(updated);
+    try {
+      localStorage.setItem("walimah_custom_wa_templates", JSON.stringify(updated));
+      setSaveSuccessMsg(true);
+      setTimeout(() => setSaveSuccessMsg(false), 3000);
+    } catch {
+      // ignore
+    }
+  };
+
+  const insertPlaceholderTag = (tag: string) => {
+    const current = templates[tone];
+    const updated = current + ` ${tag}`;
+    setTemplates({
+      ...templates,
+      [tone]: updated,
+    });
+  };
+
   const generateSlug = (name: string) => {
     return name
       .trim()
@@ -136,66 +266,28 @@ export default function MempelaiPortalPage() {
   const slug = guestName.trim() ? generateSlug(guestName) : "Nama-Tamu";
   const invitationUrl = `${baseUrl}/to/${slug}`;
 
-  const generateMessage = () => {
+  // Parse template with live dynamic placeholders
+  const formatMessage = () => {
     const formattedGuest = guestName.trim() || "[Nama Tamu]";
+    const currentTemplate = templates[tone];
 
-    if (tone === "friendly") {
-      return `Assalamu'alaikum Warahmatullahi Wabarakatuh ✨
-
-Halo *${formattedGuest}*,
-
-Alhamdulillah, dengan memohon ridho dan berkah Allah SWT, kami bermaksud menyelenggarakan acara pernikahan kami (Walimatul 'Urs):
-
-*${invitationConfig.groom.fullName}*
-&
-*${invitationConfig.bride.fullName}*
-
-🗓️ *Hari/Tgl:* Sabtu, 12 Desember 2026
-⏰ *Waktu:* 08.00 WIB s/d Selesai
-📍 *Lokasi:* ${invitationConfig.events.akad.locationName}
-
-Detail acara, petunjuk arah lokasi, serta konfirmasi kehadiran (RSVP) dapat dilihat melalui tautan undangan berikut:
-👉 ${invitationUrl}
-
-Kehadiran serta doa restumu sangat bermakna dan menjadi kebahagiaan bagi kami. Terima kasih banyak ya! 🙏
-
-Wassalamu'alaikum Warahmatullahi Wabarakatuh.
-
-Salam hangat,
-*${invitationConfig.groom.nickName} & ${invitationConfig.bride.nickName}*`;
-    }
-
-    return `Assalamu'alaikum Warahmatullahi Wabarakatuh
-
-${salutation}
-*${formattedGuest}*
-
-Tanpa mengurangi rasa hormat, dengan memohon rahmat dan ridho Allah Subhanahu Wa Ta'ala, perkenankan kami mengundang Bapak/Ibu/Saudara/i untuk menghadiri acara Walimatul 'Urs putra-putri kami:
-
-*${invitationConfig.groom.fullName}*
-&
-*${invitationConfig.bride.fullName}*
-
-Insya Allah acara akan diselenggarakan pada:
-🗓️ *Hari/Tanggal:* Sabtu, 12 Desember 2026
-⏰ *Waktu:* 08.00 WIB s/d Selesai
-📍 *Tempat:* ${invitationConfig.events.akad.locationName} (${invitationConfig.events.akad.address})
-
-Informasi detail mengenai rangkaian acara, denah lokasi, serta konfirmasi kehadiran (RSVP) dapat diakses melalui tautan undangan digital berikut:
-👉 ${invitationUrl}
-
-Merupakan suatu kehormatan dan kebahagiaan bagi kami apabila Bapak/Ibu/Saudara/i berkenan hadir serta memberikan doa restu kepada kedua mempelai.
-
-Semoga Allah Subhanahu Wa Ta'ala meridhoi niat suci ini dan membalas segala kebaikan Bapak/Ibu/Saudara/i. Aamiin Ya Rabbal 'Alamin.
-
-Wassalamu'alaikum Warahmatullahi Wabarakatuh.
-
-Kami yang berbahagia,
-*Keluarga Besar Bpk. ${invitationConfig.groom.fatherName} & Bpk. ${invitationConfig.bride.fatherName}*
-*${invitationConfig.groom.nickName} & ${invitationConfig.bride.nickName}*`;
+    return currentTemplate
+      .replace(/{nama}/g, formattedGuest)
+      .replace(/{sapaan}/g, salutation)
+      .replace(/{link}/g, invitationUrl)
+      .replace(/{tanggal}/g, "Sabtu, 12 Desember 2026")
+      .replace(/{waktu}/g, "08.00 WIB s/d Selesai")
+      .replace(
+        /{lokasi}/g,
+        `${invitationConfig.events.akad.locationName} (${invitationConfig.events.akad.address})`
+      )
+      .replace(
+        /{mempelai}/g,
+        `${invitationConfig.groom.nickName} & ${invitationConfig.bride.nickName}`
+      );
   };
 
-  const messageText = generateMessage();
+  const messageText = formatMessage();
 
   const handleCopyLink = () => {
     navigator.clipboard.writeText(invitationUrl);
@@ -292,69 +384,69 @@ Kami yang berbahagia,
   });
 
   return (
-    <div className="min-h-screen bg-islamic-ivory text-islamic-emerald p-4 sm:p-8 islamic-pattern">
+    <div className="min-h-screen bg-islamic-ivory text-islamic-emerald p-3.5 sm:p-6 md:p-8 islamic-pattern pb-20">
       <div className="max-w-5xl mx-auto">
-        {/* Top Navigation */}
-        <div className="flex items-center justify-between mb-8">
+        {/* Top Navigation Bar (Mobile Friendly Flex Wrap) */}
+        <div className="flex flex-col sm:flex-row items-stretch sm:items-center justify-between gap-3 mb-6 sm:mb-8">
           <Link
             href="/"
-            className="inline-flex items-center gap-2 text-xs sm:text-sm font-semibold text-islamic-emerald hover:text-gold-700 bg-white/90 hover:bg-white border border-gold-300 px-4 py-2 rounded-full shadow-sm transition-all active:scale-95"
+            className="inline-flex items-center justify-center gap-2 text-xs sm:text-sm font-semibold text-islamic-emerald hover:text-gold-700 bg-white/95 hover:bg-white border border-gold-300 px-4 py-2.5 rounded-full shadow-sm transition-all active:scale-95"
           >
             <ArrowLeft className="w-4 h-4" />
-            <span>Lihat Halaman Tamu</span>
+            <span>Lihat Tampilan Tamu</span>
           </Link>
 
-          <div className="inline-flex items-center gap-1.5 px-3.5 py-1.5 rounded-full bg-gold-gradient text-islamic-emerald text-xs font-bold border border-gold-400 shadow-sm">
+          <div className="inline-flex items-center justify-center gap-1.5 px-4 py-2 rounded-full bg-gold-gradient text-islamic-emerald text-xs font-bold border border-gold-400 shadow-sm">
             <Sparkles className="w-3.5 h-3.5 text-islamic-emerald animate-pulse" />
             <span>Portal Khusus Mempelai</span>
           </div>
         </div>
 
         {/* Portal Header Card */}
-        <div className="p-6 sm:p-8 rounded-3xl glass-card ornate-border text-center mb-8 shadow-md">
-          <RubElHizb className="w-8 h-8 text-gold-500 mx-auto mb-3" />
-          <h1 className="font-serif text-2xl sm:text-4xl font-extrabold text-islamic-emerald mb-2">
+        <div className="p-5 sm:p-8 rounded-3xl glass-card ornate-border text-center mb-6 sm:mb-8 shadow-md">
+          <RubElHizb className="w-7 h-7 sm:w-8 sm:h-8 text-gold-500 mx-auto mb-2.5" />
+          <h1 className="font-serif text-2xl sm:text-3xl md:text-4xl font-extrabold text-islamic-emerald mb-2">
             Portal Mempelai: Heri &amp; Asri
           </h1>
           <p className="text-xs sm:text-sm text-islamic-forest/80 font-sans max-w-2xl mx-auto leading-relaxed">
-            Halaman internal khusus calon pengantin untuk mengelola penyebaran tautan undangan tamu ke WhatsApp serta memantau data konfirmasi kehadiran tamu secara langsung.
+            Kelola penyebaran tautan undangan tamu ke WhatsApp, sesuaikan template pesan sesuai selera, serta pantau konfirmasi kehadiran secara real-time.
           </p>
 
-          {/* Tab Selector */}
-          <div className="flex items-center justify-center gap-3 mt-6">
+          {/* Tab Selector (Mobile Friendly Full Width Grid) */}
+          <div className="grid grid-cols-2 gap-2 sm:flex sm:items-center sm:justify-center sm:gap-3 mt-6">
             <button
               onClick={() => setActiveTab("generator")}
-              className={`inline-flex items-center gap-2 px-6 py-2.5 rounded-full text-xs sm:text-sm font-bold transition-all shadow-sm ${
+              className={`inline-flex items-center justify-center gap-2 px-4 sm:px-6 py-2.5 rounded-full text-xs sm:text-sm font-bold transition-all shadow-sm ${
                 activeTab === "generator"
-                  ? "bg-islamic-emerald text-gold-200 border border-gold-400 scale-105"
+                  ? "bg-islamic-emerald text-gold-200 border border-gold-400 scale-[1.02] sm:scale-105"
                   : "bg-white/80 text-islamic-forest border border-gold-300 hover:bg-white"
               }`}
             >
               <Send className="w-4 h-4" />
-              <span>Generator Link Tamu</span>
+              <span>Kirim Undangan</span>
             </button>
 
             <button
               onClick={() => setActiveTab("rsvp")}
-              className={`inline-flex items-center gap-2 px-6 py-2.5 rounded-full text-xs sm:text-sm font-bold transition-all shadow-sm ${
+              className={`inline-flex items-center justify-center gap-2 px-4 sm:px-6 py-2.5 rounded-full text-xs sm:text-sm font-bold transition-all shadow-sm ${
                 activeTab === "rsvp"
-                  ? "bg-islamic-emerald text-gold-200 border border-gold-400 scale-105"
+                  ? "bg-islamic-emerald text-gold-200 border border-gold-400 scale-[1.02] sm:scale-105"
                   : "bg-white/80 text-islamic-forest border border-gold-300 hover:bg-white"
               }`}
             >
               <UserCheck className="w-4 h-4" />
-              <span>Rekapitulasi RSVP ({totalRsvp})</span>
+              <span>Rekap RSVP ({totalRsvp})</span>
             </button>
           </div>
         </div>
 
-        {/* ================= TAB 1: GENERATOR ================= */}
+        {/* ================= TAB 1: GENERATOR & TEMPLATE ================= */}
         {activeTab === "generator" && (
-          <div className="grid grid-cols-1 lg:grid-cols-12 gap-8 animate-fade-up">
-            {/* Left Column: Input Form */}
-            <div className="lg:col-span-5 space-y-6">
-              <div className="p-6 rounded-3xl glass-card border border-gold-300 shadow-sm space-y-5">
-                <h2 className="font-serif text-lg font-bold text-islamic-emerald flex items-center gap-2 border-b border-gold-200 pb-3">
+          <div className="grid grid-cols-1 lg:grid-cols-12 gap-6 sm:gap-8 animate-fade-up">
+            {/* Left Column: Guest Data Form & Template Settings */}
+            <div className="lg:col-span-5 space-y-5">
+              <div className="p-5 sm:p-6 rounded-3xl glass-card border border-gold-300 shadow-sm space-y-4">
+                <h2 className="font-serif text-base sm:text-lg font-bold text-islamic-emerald flex items-center gap-2 border-b border-gold-200 pb-3">
                   <Users className="w-5 h-5 text-gold-600" />
                   <span>Data Tamu Undangan</span>
                 </h2>
@@ -369,10 +461,10 @@ Kami yang berbahagia,
                     value={guestName}
                     onChange={(e) => setGuestName(e.target.value)}
                     placeholder="Contoh: Bapak H. Ahmad &amp; Keluarga"
-                    className="w-full px-4 py-2.5 rounded-xl border border-gold-300 bg-white text-sm focus:outline-none focus:ring-2 focus:ring-gold-500 shadow-sm"
+                    className="w-full px-4 py-2.5 rounded-xl border border-gold-300 bg-white text-sm focus:outline-none focus:ring-2 focus:ring-gold-500 shadow-sm text-islamic-emerald"
                   />
                   <p className="text-[11px] text-islamic-forest/60 mt-1 italic">
-                    Nama ini otomatis tertera pada kartu sampul dan formulir buku tamu mereka.
+                    Otomatis muncul di kartu sampul dan buku tamu digital mereka.
                   </p>
                 </div>
 
@@ -384,7 +476,7 @@ Kami yang berbahagia,
                   <select
                     value={salutation}
                     onChange={(e) => setSalutation(e.target.value)}
-                    className="w-full px-4 py-2.5 rounded-xl border border-gold-300 bg-white text-sm focus:outline-none focus:ring-2 focus:ring-gold-500 shadow-sm"
+                    className="w-full px-3.5 py-2.5 rounded-xl border border-gold-300 bg-white text-sm focus:outline-none focus:ring-2 focus:ring-gold-500 shadow-sm text-islamic-emerald"
                   >
                     <option value="Yth. Bapak/Ibu/Saudara/i:">Yth. Bapak/Ibu/Saudara/i:</option>
                     <option value="Yth. Ustadz/Ustadzah:">Yth. Ustadz/Ustadzah:</option>
@@ -405,17 +497,17 @@ Kami yang berbahagia,
                     value={phone}
                     onChange={(e) => setPhone(e.target.value)}
                     placeholder="Contoh: 081234567890"
-                    className="w-full px-4 py-2.5 rounded-xl border border-gold-300 bg-white text-sm focus:outline-none focus:ring-2 focus:ring-gold-500 shadow-sm"
+                    className="w-full px-4 py-2.5 rounded-xl border border-gold-300 bg-white text-sm focus:outline-none focus:ring-2 focus:ring-gold-500 shadow-sm text-islamic-emerald"
                   />
                   <p className="text-[11px] text-islamic-forest/60 mt-1 italic">
-                    Bila diisi, tombol kirim akan langsung membuka obrolan ke nomor tersebut.
+                    Bila diisi, tombol kirim langsung membuka chat ke nomor tersebut.
                   </p>
                 </div>
 
-                {/* Tone Selection */}
+                {/* Tone / Format Selection */}
                 <div>
                   <label className="block text-xs font-bold text-islamic-emerald uppercase tracking-wider mb-1.5 font-sans">
-                    Gaya Bahasa Pesan
+                    Pilihan Format Template
                   </label>
                   <div className="grid grid-cols-2 gap-2">
                     <button
@@ -423,7 +515,7 @@ Kami yang berbahagia,
                       onClick={() => setTone("formal")}
                       className={`py-2 px-3 rounded-xl text-xs font-semibold border transition-all ${
                         tone === "formal"
-                          ? "bg-islamic-emerald text-white border-islamic-emerald shadow-sm"
+                          ? "bg-islamic-emerald text-gold-200 border-islamic-deep shadow-sm"
                           : "bg-white text-islamic-forest border-gold-300 hover:bg-gold-50"
                       }`}
                     >
@@ -434,22 +526,114 @@ Kami yang berbahagia,
                       onClick={() => setTone("friendly")}
                       className={`py-2 px-3 rounded-xl text-xs font-semibold border transition-all ${
                         tone === "friendly"
-                          ? "bg-islamic-emerald text-white border-islamic-emerald shadow-sm"
+                          ? "bg-islamic-emerald text-gold-200 border-islamic-deep shadow-sm"
                           : "bg-white text-islamic-forest border-gold-300 hover:bg-gold-50"
                       }`}
                     >
-                      Akrab / Sahabat
+                      Akrab / Teman
                     </button>
                   </div>
                 </div>
+
+                {/* Template Editor Accordion Toggle */}
+                <div className="pt-2">
+                  <button
+                    type="button"
+                    onClick={() => setIsEditingTemplate(!isEditingTemplate)}
+                    className="w-full inline-flex items-center justify-between px-4 py-2.5 rounded-xl bg-gold-50 hover:bg-gold-100/80 border border-gold-300 text-gold-900 font-semibold text-xs transition-all shadow-sm"
+                  >
+                    <span className="flex items-center gap-2">
+                      <Settings className="w-4 h-4 text-gold-700" />
+                      <span>{isEditingTemplate ? "Tutup Editor Template" : "Edit / Kustomisasi Template Ini"}</span>
+                    </span>
+                    <span className="text-[11px] bg-gold-200/60 px-2 py-0.5 rounded-full font-mono">
+                      {tone === "formal" ? "Resmi" : "Akrab"}
+                    </span>
+                  </button>
+                </div>
               </div>
 
+              {/* Template Editor Drawer (Visible when toggled) */}
+              {isEditingTemplate && (
+                <div className="p-5 rounded-3xl bg-white border-2 border-gold-400 shadow-md space-y-3 animate-fade-in">
+                  <div className="flex items-center justify-between border-b border-gold-200 pb-2">
+                    <span className="text-xs font-bold text-islamic-emerald uppercase tracking-wider font-sans">
+                      Edit Teks Template ({tone === "formal" ? "Resmi" : "Akrab"})
+                    </span>
+                    <span className="text-[10px] text-emerald-700 font-medium bg-emerald-50 px-2 py-0.5 rounded-full border border-emerald-200">
+                      Tersimpan Otomatis
+                    </span>
+                  </div>
+
+                  <p className="text-[11px] text-islamic-forest/70 font-sans leading-relaxed">
+                    Gunakan placeholder di bawah untuk menyisipkan data tamu secara dinamis:
+                  </p>
+
+                  {/* Placeholder Tags Chips */}
+                  <div className="flex flex-wrap gap-1.5 pb-1">
+                    {PLACEHOLDER_TAGS.map((item) => (
+                      <button
+                        key={item.tag}
+                        type="button"
+                        onClick={() => insertPlaceholderTag(item.tag)}
+                        title={`Sisipkan ${item.desc}`}
+                        className="px-2 py-1 rounded-lg bg-gold-100/80 hover:bg-gold-200 text-gold-900 font-mono text-[10px] border border-gold-300/80 transition-all hover:scale-105 active:scale-95"
+                      >
+                        + {item.tag}
+                      </button>
+                    ))}
+                  </div>
+
+                  {/* Template Textarea */}
+                  <textarea
+                    rows={9}
+                    value={templates[tone]}
+                    onChange={(e) =>
+                      setTemplates({
+                        ...templates,
+                        [tone]: e.target.value,
+                      })
+                    }
+                    className="w-full p-3 rounded-xl border border-gold-300 bg-gold-50/20 font-sans text-xs text-islamic-emerald leading-relaxed focus:outline-none focus:ring-2 focus:ring-gold-500 resize-y shadow-inner"
+                  />
+
+                  {saveSuccessMsg && (
+                    <div className="p-2.5 rounded-xl bg-emerald-50 border border-emerald-300 text-emerald-800 text-xs flex items-center gap-2 animate-fade-in">
+                      <CheckCircle className="w-4 h-4 text-emerald-600 shrink-0" />
+                      <span>Template berhasil disimpan di memori perangkat ini!</span>
+                    </div>
+                  )}
+
+                  {/* Editor Actions */}
+                  <div className="flex items-center gap-2 pt-1">
+                    <button
+                      type="button"
+                      onClick={handleSaveTemplate}
+                      className="flex-1 inline-flex items-center justify-center gap-1.5 py-2.5 px-4 rounded-xl bg-emerald-700 hover:bg-emerald-800 text-white font-semibold text-xs shadow-sm transition-all active:scale-95"
+                    >
+                      <Save className="w-3.5 h-3.5" />
+                      <span>Simpan Perubahan</span>
+                    </button>
+
+                    <button
+                      type="button"
+                      onClick={handleResetTemplate}
+                      className="inline-flex items-center justify-center gap-1.5 py-2.5 px-3 rounded-xl bg-gray-100 hover:bg-gray-200 text-gray-700 font-semibold text-xs transition-all active:scale-95"
+                      title="Kembalikan ke template default"
+                    >
+                      <RotateCcw className="w-3.5 h-3.5" />
+                      <span className="hidden sm:inline">Reset Default</span>
+                    </button>
+                  </div>
+                </div>
+              )}
+
               {/* Quick Link Info Box */}
-              <div className="p-5 rounded-2xl bg-gold-500/10 border border-gold-300">
-                <p className="text-xs font-bold text-islamic-emerald uppercase tracking-wider mb-1">
+              <div className="p-4 sm:p-5 rounded-2xl bg-gold-500/10 border border-gold-300 space-y-3">
+                <p className="text-xs font-bold text-islamic-emerald uppercase tracking-wider">
                   Tautan Khusus Tamu:
                 </p>
-                <div className="flex items-center gap-2 overflow-hidden bg-white px-3 py-2 rounded-xl border border-gold-300/80">
+                <div className="flex items-center gap-2 overflow-hidden bg-white px-3 py-2 rounded-xl border border-gold-300/80 shadow-sm">
                   <span className="font-mono text-xs text-gold-800 truncate flex-1 select-all">
                     {invitationUrl}
                   </span>
@@ -463,7 +647,7 @@ Kami yang berbahagia,
                   </button>
                 </div>
 
-                <div className="flex items-center gap-2 mt-3">
+                <div className="flex items-center gap-2">
                   <button
                     type="button"
                     onClick={handleCopyLink}
@@ -477,7 +661,7 @@ Kami yang berbahagia,
                     href={invitationUrl}
                     target="_blank"
                     rel="noopener noreferrer"
-                    className="inline-flex items-center justify-center gap-1.5 py-2 px-3 rounded-xl bg-white hover:bg-gold-50 border border-gold-300 text-xs font-semibold text-islamic-emerald shadow-sm transition-all"
+                    className="inline-flex items-center justify-center gap-1.5 py-2 px-3.5 rounded-xl bg-white hover:bg-gold-50 border border-gold-300 text-xs font-semibold text-islamic-emerald shadow-sm transition-all"
                   >
                     <ExternalLink className="w-3.5 h-3.5" />
                     <span>Pratinjau</span>
@@ -487,12 +671,12 @@ Kami yang berbahagia,
             </div>
 
             {/* Right Column: WhatsApp Live Preview & Actions */}
-            <div className="lg:col-span-7 space-y-6">
-              <div className="p-6 rounded-3xl glass-card border border-gold-300 shadow-sm flex flex-col justify-between">
+            <div className="lg:col-span-7 space-y-5">
+              <div className="p-5 sm:p-6 rounded-3xl glass-card border border-gold-300 shadow-sm flex flex-col justify-between">
                 <div className="flex items-center justify-between border-b border-gold-200 pb-3 mb-4">
                   <div className="flex items-center gap-2">
                     <MessageCircle className="w-5 h-5 text-emerald-600" />
-                    <span className="font-serif font-bold text-lg text-islamic-emerald">
+                    <span className="font-serif font-bold text-base sm:text-lg text-islamic-emerald">
                       Pratinjau Pesan WhatsApp
                     </span>
                   </div>
@@ -502,8 +686,8 @@ Kami yang berbahagia,
                 </div>
 
                 {/* WhatsApp Chat Preview Card */}
-                <div className="p-4 sm:p-5 rounded-2xl bg-[#EFEAE2] border border-[#D1D7DB] text-left relative overflow-hidden shadow-inner font-sans mb-5">
-                  <div className="bg-white p-4 rounded-xl rounded-tl-none shadow-sm text-xs sm:text-sm text-gray-800 whitespace-pre-line leading-relaxed max-w-xl">
+                <div className="p-3.5 sm:p-5 rounded-2xl bg-[#EFEAE2] border border-[#D1D7DB] text-left relative overflow-hidden shadow-inner font-sans mb-4">
+                  <div className="bg-white p-3.5 sm:p-4 rounded-xl rounded-tl-none shadow-sm text-xs sm:text-sm text-gray-800 whitespace-pre-line leading-relaxed max-w-xl max-h-[360px] overflow-y-auto">
                     {messageText}
                   </div>
                 </div>
@@ -513,7 +697,7 @@ Kami yang berbahagia,
                   <button
                     type="button"
                     onClick={handleSendWhatsApp}
-                    className="inline-flex items-center justify-center gap-2 py-3 px-5 rounded-2xl bg-emerald-600 hover:bg-emerald-700 text-white font-bold text-sm tracking-wide shadow-md shadow-emerald-700/20 transition-all hover:scale-[1.02] active:scale-95"
+                    className="inline-flex items-center justify-center gap-2 py-3 px-5 rounded-2xl bg-emerald-600 hover:bg-emerald-700 text-white font-bold text-xs sm:text-sm tracking-wide shadow-md shadow-emerald-700/20 transition-all hover:scale-[1.01] active:scale-95 shimmer-btn min-h-[44px]"
                   >
                     <Send className="w-4 h-4" />
                     <span>Kirim via WhatsApp</span>
@@ -522,7 +706,7 @@ Kami yang berbahagia,
                   <button
                     type="button"
                     onClick={handleCopyText}
-                    className="inline-flex items-center justify-center gap-2 py-3 px-5 rounded-2xl bg-gold-gradient hover:bg-gold-gradient-shine text-islamic-emerald font-bold text-sm tracking-wide shadow-md shadow-gold-500/20 transition-all hover:scale-[1.02] active:scale-95"
+                    className="inline-flex items-center justify-center gap-2 py-3 px-5 rounded-2xl bg-gold-gradient hover:bg-gold-gradient-shine text-islamic-emerald font-bold text-xs sm:text-sm tracking-wide shadow-md shadow-gold-500/20 transition-all hover:scale-[1.01] active:scale-95 min-h-[44px]"
                   >
                     {copiedText ? (
                       <>
@@ -540,11 +724,11 @@ Kami yang berbahagia,
               </div>
 
               {/* Guest Management / History Table */}
-              <div className="p-6 rounded-3xl glass-card border border-gold-300 shadow-sm">
+              <div className="p-5 sm:p-6 rounded-3xl glass-card border border-gold-300 shadow-sm">
                 <div className="flex items-center justify-between border-b border-gold-200 pb-3 mb-4">
                   <div className="flex items-center gap-2">
                     <Users className="w-5 h-5 text-gold-600" />
-                    <span className="font-serif font-bold text-lg text-islamic-emerald">
+                    <span className="font-serif font-bold text-base sm:text-lg text-islamic-emerald">
                       Daftar Tamu Dibuat ({history.length})
                     </span>
                   </div>
@@ -570,9 +754,9 @@ Kami yang berbahagia,
                     {history.map((item) => (
                       <div
                         key={item.id}
-                        className="p-3 rounded-2xl bg-white border border-gold-200 flex items-center justify-between gap-3 text-xs shadow-sm hover:border-gold-300 transition-colors"
+                        className="p-3 rounded-2xl bg-white border border-gold-200 flex items-center justify-between gap-2.5 text-xs shadow-sm hover:border-gold-300 transition-colors"
                       >
-                        <div className="flex items-center gap-2.5 min-w-0">
+                        <div className="flex items-center gap-2.5 min-w-0 flex-1">
                           <button
                             type="button"
                             onClick={() => toggleSentStatus(item.id)}
@@ -585,7 +769,7 @@ Kami yang berbahagia,
                           >
                             <Check className="w-3 h-3" />
                           </button>
-                          <div className="min-w-0">
+                          <div className="min-w-0 flex-1">
                             <p
                               className={`font-semibold truncate ${
                                 item.sent ? "text-gray-500 line-through" : "text-islamic-emerald"
@@ -641,66 +825,66 @@ Kami yang berbahagia,
         {/* ================= TAB 2: RSVP RECAP ================= */}
         {activeTab === "rsvp" && (
           <div className="space-y-6 animate-fade-up">
-            {/* 4 Summary Stat Cards */}
-            <div className="grid grid-cols-2 sm:grid-cols-4 gap-4">
+            {/* 4 Summary Stat Cards (Mobile Optimized Grid) */}
+            <div className="grid grid-cols-2 sm:grid-cols-4 gap-2.5 sm:gap-4">
               {/* Total Responses */}
-              <div className="p-5 rounded-2xl glass-card border border-gold-300 text-center shadow-sm">
-                <p className="text-xs text-islamic-forest font-semibold uppercase tracking-wider">
+              <div className="p-4 sm:p-5 rounded-2xl glass-card border border-gold-300 text-center shadow-sm">
+                <p className="text-[11px] sm:text-xs text-islamic-forest font-semibold uppercase tracking-wider">
                   Total Respons
                 </p>
-                <p className="font-serif text-3xl sm:text-4xl font-extrabold text-islamic-emerald my-1">
+                <p className="font-serif text-2xl sm:text-4xl font-extrabold text-islamic-emerald my-1">
                   {totalRsvp}
                 </p>
-                <p className="text-[11px] text-islamic-forest/60">Tamu Mengisi</p>
+                <p className="text-[10px] sm:text-[11px] text-islamic-forest/60">Tamu Mengisi</p>
               </div>
 
               {/* Pasti Hadir */}
-              <div className="p-5 rounded-2xl bg-emerald-50/80 border border-emerald-300 text-center shadow-sm">
+              <div className="p-4 sm:p-5 rounded-2xl bg-emerald-50/90 border border-emerald-300 text-center shadow-sm">
                 <div className="flex items-center justify-center gap-1 text-emerald-800 mb-0.5">
-                  <CheckCircle2 className="w-4 h-4" />
-                  <span className="text-xs font-bold uppercase tracking-wider">Insya Allah Hadir</span>
+                  <CheckCircle2 className="w-3.5 h-3.5 sm:w-4 sm:h-4" />
+                  <span className="text-[11px] sm:text-xs font-bold uppercase tracking-wider">Insya Allah Hadir</span>
                 </div>
-                <p className="font-serif text-3xl sm:text-4xl font-extrabold text-emerald-900 my-1">
+                <p className="font-serif text-2xl sm:text-4xl font-extrabold text-emerald-900 my-1">
                   {totalHadirCount}
                 </p>
-                <p className="text-[11px] font-semibold text-emerald-800">
+                <p className="text-[10px] sm:text-[11px] font-semibold text-emerald-800">
                   {totalHadirPax} Porsi / Pax
                 </p>
               </div>
 
               {/* Ragu-Ragu */}
-              <div className="p-5 rounded-2xl bg-amber-50/80 border border-amber-300 text-center shadow-sm">
+              <div className="p-4 sm:p-5 rounded-2xl bg-amber-50/90 border border-amber-300 text-center shadow-sm">
                 <div className="flex items-center justify-center gap-1 text-amber-800 mb-0.5">
-                  <HelpCircle className="w-4 h-4" />
-                  <span className="text-xs font-bold uppercase tracking-wider">Masih Ragu</span>
+                  <HelpCircle className="w-3.5 h-3.5 sm:w-4 sm:h-4" />
+                  <span className="text-[11px] sm:text-xs font-bold uppercase tracking-wider">Masih Ragu</span>
                 </div>
-                <p className="font-serif text-3xl sm:text-4xl font-extrabold text-amber-900 my-1">
+                <p className="font-serif text-2xl sm:text-4xl font-extrabold text-amber-900 my-1">
                   {totalRaguCount}
                 </p>
-                <p className="text-[11px] font-semibold text-amber-800">
+                <p className="text-[10px] sm:text-[11px] font-semibold text-amber-800">
                   {totalRaguPax} Estimasi Pax
                 </p>
               </div>
 
               {/* Berhalangan */}
-              <div className="p-5 rounded-2xl bg-rose-50/80 border border-rose-300 text-center shadow-sm">
+              <div className="p-4 sm:p-5 rounded-2xl bg-rose-50/90 border border-rose-300 text-center shadow-sm">
                 <div className="flex items-center justify-center gap-1 text-rose-800 mb-0.5">
-                  <XCircle className="w-4 h-4" />
-                  <span className="text-xs font-bold uppercase tracking-wider">Berhalangan</span>
+                  <XCircle className="w-3.5 h-3.5 sm:w-4 sm:h-4" />
+                  <span className="text-[11px] sm:text-xs font-bold uppercase tracking-wider">Berhalangan</span>
                 </div>
-                <p className="font-serif text-3xl sm:text-4xl font-extrabold text-rose-900 my-1">
+                <p className="font-serif text-2xl sm:text-4xl font-extrabold text-rose-900 my-1">
                   {totalTidakHadirCount}
                 </p>
-                <p className="text-[11px] text-rose-700/70">Kirim Doa</p>
+                <p className="text-[10px] sm:text-[11px] text-rose-700/70">Kirim Doa</p>
               </div>
             </div>
 
-            {/* Filter & Search Bar */}
-            <div className="p-5 rounded-2xl glass-card border border-gold-300 flex flex-col sm:flex-row items-center justify-between gap-4">
-              <div className="flex items-center gap-2 w-full sm:w-auto">
+            {/* Filter & Search Bar (Mobile Friendly Scrollable Pills & Full Width Input) */}
+            <div className="p-4 sm:p-5 rounded-2xl glass-card border border-gold-300 flex flex-col sm:flex-row items-stretch sm:items-center justify-between gap-3">
+              <div className="flex items-center gap-1.5 overflow-x-auto pb-1 sm:pb-0 sm:flex-wrap">
                 <button
                   onClick={() => setRsvpFilter("all")}
-                  className={`px-3.5 py-1.5 rounded-full text-xs font-semibold transition-all ${
+                  className={`px-3 py-1.5 rounded-full text-xs font-semibold whitespace-nowrap transition-all ${
                     rsvpFilter === "all"
                       ? "bg-islamic-emerald text-white shadow-sm"
                       : "bg-white text-islamic-forest border border-gold-300 hover:bg-gold-50"
@@ -710,7 +894,7 @@ Kami yang berbahagia,
                 </button>
                 <button
                   onClick={() => setRsvpFilter("hadir")}
-                  className={`px-3.5 py-1.5 rounded-full text-xs font-semibold transition-all ${
+                  className={`px-3 py-1.5 rounded-full text-xs font-semibold whitespace-nowrap transition-all ${
                     rsvpFilter === "hadir"
                       ? "bg-emerald-700 text-white shadow-sm"
                       : "bg-white text-emerald-800 border border-emerald-300 hover:bg-emerald-50"
@@ -720,7 +904,7 @@ Kami yang berbahagia,
                 </button>
                 <button
                   onClick={() => setRsvpFilter("ragu")}
-                  className={`px-3.5 py-1.5 rounded-full text-xs font-semibold transition-all ${
+                  className={`px-3 py-1.5 rounded-full text-xs font-semibold whitespace-nowrap transition-all ${
                     rsvpFilter === "ragu"
                       ? "bg-amber-600 text-white shadow-sm"
                       : "bg-white text-amber-800 border border-amber-300 hover:bg-amber-50"
@@ -730,7 +914,7 @@ Kami yang berbahagia,
                 </button>
                 <button
                   onClick={() => setRsvpFilter("tidak_hadir")}
-                  className={`px-3.5 py-1.5 rounded-full text-xs font-semibold transition-all ${
+                  className={`px-3 py-1.5 rounded-full text-xs font-semibold whitespace-nowrap transition-all ${
                     rsvpFilter === "tidak_hadir"
                       ? "bg-rose-700 text-white shadow-sm"
                       : "bg-white text-rose-800 border border-rose-300 hover:bg-rose-50"
@@ -746,7 +930,7 @@ Kami yang berbahagia,
                   value={searchRsvp}
                   onChange={(e) => setSearchRsvp(e.target.value)}
                   placeholder="Cari nama atau ucapan..."
-                  className="w-full pl-9 pr-4 py-2 rounded-xl border border-gold-300 bg-white text-xs focus:outline-none focus:ring-2 focus:ring-gold-500 shadow-sm"
+                  className="w-full pl-9 pr-4 py-2 rounded-xl border border-gold-300 bg-white text-xs focus:outline-none focus:ring-2 focus:ring-gold-500 shadow-sm text-islamic-emerald"
                 />
                 <Search className="w-3.5 h-3.5 text-gold-600 absolute left-3 top-2.5" />
               </div>
@@ -767,10 +951,10 @@ Kami yang berbahagia,
                 filteredWishes.map((item) => (
                   <div
                     key={item.id}
-                    className="p-5 rounded-2xl bg-white border border-gold-200 shadow-sm hover:border-gold-300 transition-all flex flex-col sm:flex-row items-start sm:items-center justify-between gap-4"
+                    className="p-4 sm:p-5 rounded-2xl bg-white border border-gold-200 shadow-sm hover:border-gold-300 transition-all flex flex-col sm:flex-row items-start sm:items-center justify-between gap-3 sm:gap-4"
                   >
-                    <div className="space-y-1.5 flex-1">
-                      <div className="flex items-center gap-2">
+                    <div className="space-y-1.5 flex-1 w-full">
+                      <div className="flex items-center justify-between sm:justify-start gap-2 flex-wrap">
                         <span className="font-serif font-bold text-sm text-islamic-emerald">
                           {item.name}
                         </span>
@@ -791,7 +975,7 @@ Kami yang berbahagia,
                         )}
                       </div>
 
-                      <p className="text-xs text-islamic-forest/85 italic leading-relaxed font-sans">
+                      <p className="text-xs text-islamic-forest/85 italic leading-relaxed font-sans whitespace-pre-line">
                         &ldquo;{item.message}&rdquo;
                       </p>
 
@@ -809,4 +993,3 @@ Kami yang berbahagia,
     </div>
   );
 }
-
