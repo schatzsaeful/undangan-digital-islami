@@ -44,7 +44,7 @@ export function BottomNav() {
   };
 
   return (
-    <div className="fixed bottom-4 left-1/2 -translate-x-1/2 z-40 w-auto max-w-[95vw] px-2 py-1.5 rounded-full bg-islamic-emerald/90 border border-gold-400/40 shadow-2xl backdrop-blur-md flex items-center gap-1 sm:gap-2 animate-fade-in">
+    <div className="fixed bottom-[calc(1rem+env(safe-area-inset-bottom,0px))] left-1/2 -translate-x-1/2 z-40 w-auto max-w-[95vw] px-2 py-1.5 rounded-full bg-islamic-emerald/90 border border-gold-400/40 shadow-2xl backdrop-blur-md flex items-center gap-1 sm:gap-2 animate-fade-in">
       {NAV_ITEMS.map((item) => {
         const Icon = item.icon;
         const isActive = activeSection === item.id;
@@ -52,7 +52,7 @@ export function BottomNav() {
           <button
             key={item.id}
             onClick={() => scrollToSection(item.id)}
-            className={`flex flex-col items-center justify-center py-1.5 px-2.5 sm:px-3 rounded-full text-[10px] sm:text-xs font-medium transition-all duration-300 ${
+            className={`flex flex-col items-center justify-center py-1.5 px-2.5 sm:px-3 rounded-full text-[10px] sm:text-xs font-medium transition-all duration-300 min-h-[40px] sm:min-h-[44px] ${
               isActive
                 ? "bg-gold-500/25 text-gold-300 scale-105 border border-gold-400/40 shadow-sm"
                 : "text-islamic-sage hover:text-gold-200"

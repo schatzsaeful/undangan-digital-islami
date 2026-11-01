@@ -96,7 +96,7 @@ export function CountdownTimer({ targetDate, calendarUrl }: CountdownProps) {
           >
             <div className="relative group overflow-hidden flex flex-col items-center justify-center p-3.5 sm:p-5 rounded-2xl glass-card border border-gold-300/60 shadow-sm transition-all duration-300 hover:shadow-lg hover:-translate-y-1.5 hover:border-gold-400">
               <div className="absolute inset-0 bg-gradient-to-b from-white/40 via-transparent to-gold-500/5 pointer-events-none" />
-              <span className="font-serif text-2xl sm:text-4xl font-extrabold text-islamic-emerald group-hover:text-gold-700 transition-colors">
+              <span className="font-serif text-2xl sm:text-4xl font-extrabold text-islamic-emerald group-hover:text-gold-700 transition-colors tabular-nums tracking-tight">
                 {String(unit.value).padStart(2, "0")}
               </span>
               <span className="text-[10px] sm:text-xs text-islamic-forest/75 font-semibold tracking-wider uppercase mt-1">
@@ -120,7 +120,7 @@ export function CountdownTimer({ targetDate, calendarUrl }: CountdownProps) {
             href={calendarUrl}
             target="_blank"
             rel="noopener noreferrer"
-            className="inline-flex items-center gap-2 px-7 py-3 rounded-full bg-gold-gradient hover:bg-gold-gradient-shine text-islamic-emerald font-bold text-xs sm:text-sm tracking-wide shadow-md shadow-gold-500/20 transition-all duration-300 hover:scale-105 active:scale-95"
+            className="inline-flex items-center gap-2 px-7 py-3.5 rounded-full bg-gold-gradient hover:bg-gold-gradient-shine text-islamic-emerald font-bold text-xs sm:text-sm tracking-wide shadow-md shadow-gold-500/20 transition-all duration-300 hover:scale-105 active:scale-95 shimmer-btn"
           >
             <Calendar className="w-4 h-4 text-islamic-emerald" />
             <span>Simpan Tanggal ke Google Calendar</span>

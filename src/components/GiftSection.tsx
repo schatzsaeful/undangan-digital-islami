@@ -8,10 +8,31 @@ import { BankAccount } from "@/config/invitation";
 
 function EmvChipSvg() {
   return (
-    <div className="w-10 h-7 rounded-md bg-gradient-to-tr from-amber-300 via-yellow-200 to-amber-500 p-1 border border-amber-600/50 shadow-inner flex flex-col justify-between">
-      <div className="flex justify-between items-center h-full">
-        <div className="w-full h-[1px] bg-amber-700/40 my-auto" />
-      </div>
+    <div className="relative w-11 h-8 rounded-[6px] overflow-hidden bg-gradient-to-br from-[#f6e6b4] via-[#d5a438] to-[#996e14] p-[1.5px] shadow-[0_2px_6px_rgba(0,0,0,0.35)] border border-[#f6e6b4]/60 shrink-0">
+      <svg
+        viewBox="0 0 44 32"
+        className="w-full h-full"
+        fill="none"
+        xmlns="http://www.w3.org/2000/svg"
+      >
+        <rect width="44" height="32" rx="4" fill="url(#chipGrad)" />
+        <path
+          d="M0 16 H14 M30 16 H44 M14 7 H30 M14 25 H30 M14 7 V25 M30 7 V25 M22 7 V25"
+          stroke="#684700"
+          strokeWidth="1.2"
+          strokeLinecap="round"
+          strokeOpacity="0.75"
+        />
+        <circle cx="22" cy="16" r="3.5" fill="#D5A438" stroke="#684700" strokeWidth="1" />
+        <defs>
+          <linearGradient id="chipGrad" x1="0" y1="0" x2="44" y2="32" gradientUnits="userSpaceOnUse">
+            <stop stopColor="#FDF2D0" />
+            <stop offset="0.35" stopColor="#E6C27A" />
+            <stop offset="0.7" stopColor="#C59325" />
+            <stop offset="1" stopColor="#8C630D" />
+          </linearGradient>
+        </defs>
+      </svg>
     </div>
   );
 }
@@ -59,7 +80,7 @@ export function GiftSection({ bankAccounts, physicalGiftAddress }: GiftSectionPr
 
           <button
             onClick={() => setIsOpen(!isOpen)}
-            className="mt-6 inline-flex items-center gap-2.5 px-7 py-3 rounded-full bg-gold-gradient hover:bg-gold-gradient-shine text-islamic-emerald text-xs sm:text-sm font-semibold tracking-wide shadow-md transition-all duration-300 hover:scale-105 active:scale-95"
+            className="mt-6 inline-flex items-center gap-2.5 px-7 py-3.5 rounded-full bg-gold-gradient hover:bg-gold-gradient-shine text-islamic-emerald text-xs sm:text-sm font-semibold tracking-wide shadow-md transition-all duration-300 hover:scale-105 active:scale-95 shimmer-btn"
           >
             <Gift className="w-4 h-4 text-islamic-emerald" />
             <span>{isOpen ? "Tutup Amplop Digital" : "Kirim Hadiah / Tanda Kasih"}</span>
@@ -75,6 +96,9 @@ export function GiftSection({ bankAccounts, physicalGiftAddress }: GiftSectionPr
                     key={index}
                     className="p-6 rounded-2xl atm-card-surface text-white relative overflow-hidden transition-all duration-300 hover:-translate-y-1 hover:shadow-2xl"
                   >
+                    {/* Glossy Sheen Overlay */}
+                    <div className="absolute inset-0 bg-gradient-to-tr from-transparent via-white/[0.04] to-transparent pointer-events-none" />
+
                     {/* Subtle Background Glow */}
                     <div className="absolute top-0 right-0 w-32 h-32 bg-gold-500/10 rounded-full blur-2xl pointer-events-none" />
 

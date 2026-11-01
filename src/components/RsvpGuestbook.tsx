@@ -2,7 +2,7 @@
 
 import React, { useState, useEffect } from "react";
 import confetti from "canvas-confetti";
-import { Send, CheckCircle2, MessageSquareHeart, User, Users, Cloud, Check } from "lucide-react";
+import { Send, CheckCircle2, MessageSquareHeart, User, Users, Cloud, Check, Sparkles } from "lucide-react";
 import { SectionDivider, RubElHizb } from "./IslamicOrnaments";
 import { ScrollReveal } from "./ScrollReveal";
 import { db } from "@/lib/firebase";
@@ -16,6 +16,25 @@ export interface GuestWish {
   message: string;
   timestamp: string;
 }
+
+const QUICK_DOA_PRESETS = [
+  {
+    label: "🤲 Doa Sunnah Walimah",
+    text: "Barakallahu laka wa baraka 'alaika wa jama'a bainakuma fii khoir. Semoga sakinah mawaddah warahmah.",
+  },
+  {
+    label: "🌸 Sakinah Mawaddah",
+    text: "Semoga Allah menganugerahkan keluarga yang sakinah, mawaddah, wa rahmah serta keturunan yang sholeh & sholehah.",
+  },
+  {
+    label: "💐 Selamat Hidup Baru",
+    text: "Selamat menempuh hidup baru Heri & Asri! Semoga langgeng hingga jannah dan selalu diberkahi Allah.",
+  },
+  {
+    label: "🤍 Masya Allah",
+    text: "Masya Allah tabarakallah, ikut berbahagia untuk kalian berdua! Bahagia selalu dunia & akhirat.",
+  },
+];
 
 const INITIAL_WISHES: GuestWish[] = [
   {
@@ -234,14 +253,14 @@ export function RsvpGuestbook({ initialGuestName = "" }: RsvpGuestbookProps) {
             <label className="block text-xs font-semibold text-islamic-emerald uppercase tracking-wider mb-2 font-sans">
               Konfirmasi Kehadiran
             </label>
-            <div className="grid grid-cols-1 sm:grid-cols-3 gap-2">
+            <div className="grid grid-cols-1 sm:grid-cols-3 gap-2.5">
               <button
                 type="button"
                 onClick={() => setStatus("hadir")}
-                className={`py-2.5 px-3 rounded-xl text-xs font-semibold border transition-all flex items-center justify-center gap-1.5 ${
+                className={`py-3 px-3 rounded-xl text-xs font-semibold border transition-all duration-200 flex items-center justify-center gap-1.5 ${
                   status === "hadir"
-                    ? "bg-emerald-700 text-white border-emerald-800 shadow-sm scale-[1.02]"
-                    : "bg-white/80 text-islamic-forest border-gold-300/60 hover:bg-gold-50"
+                    ? "bg-emerald-700 text-white border-emerald-800 shadow-md ring-2 ring-emerald-500/30"
+                    : "bg-white/80 text-islamic-forest border-gold-300/60 hover:bg-gold-50 hover:border-gold-400"
                 }`}
               >
                 {status === "hadir" && <Check className="w-3.5 h-3.5" />}
@@ -250,10 +269,10 @@ export function RsvpGuestbook({ initialGuestName = "" }: RsvpGuestbookProps) {
               <button
                 type="button"
                 onClick={() => setStatus("ragu")}
-                className={`py-2.5 px-3 rounded-xl text-xs font-semibold border transition-all flex items-center justify-center gap-1.5 ${
+                className={`py-3 px-3 rounded-xl text-xs font-semibold border transition-all duration-200 flex items-center justify-center gap-1.5 ${
                   status === "ragu"
-                    ? "bg-amber-600 text-white border-amber-700 shadow-sm scale-[1.02]"
-                    : "bg-white/80 text-islamic-forest border-gold-300/60 hover:bg-gold-50"
+                    ? "bg-amber-600 text-white border-amber-700 shadow-md ring-2 ring-amber-500/30"
+                    : "bg-white/80 text-islamic-forest border-gold-300/60 hover:bg-gold-50 hover:border-gold-400"
                 }`}
               >
                 {status === "ragu" && <Check className="w-3.5 h-3.5" />}
@@ -262,10 +281,10 @@ export function RsvpGuestbook({ initialGuestName = "" }: RsvpGuestbookProps) {
               <button
                 type="button"
                 onClick={() => setStatus("tidak_hadir")}
-                className={`py-2.5 px-3 rounded-xl text-xs font-semibold border transition-all flex items-center justify-center gap-1.5 ${
+                className={`py-3 px-3 rounded-xl text-xs font-semibold border transition-all duration-200 flex items-center justify-center gap-1.5 ${
                   status === "tidak_hadir"
-                    ? "bg-rose-700 text-white border-rose-800 shadow-sm scale-[1.02]"
-                    : "bg-white/80 text-islamic-forest border-gold-300/60 hover:bg-gold-50"
+                    ? "bg-rose-700 text-white border-rose-800 shadow-md ring-2 ring-rose-500/30"
+                    : "bg-white/80 text-islamic-forest border-gold-300/60 hover:bg-gold-50 hover:border-gold-400"
                 }`}
               >
                 {status === "tidak_hadir" && <Check className="w-3.5 h-3.5" />}
@@ -274,44 +293,105 @@ export function RsvpGuestbook({ initialGuestName = "" }: RsvpGuestbookProps) {
             </div>
           </div>
 
-          {/* Number of Pax */}
+          {/* Number of Pax (Custom Stepper + Quick Pills) */}
           {status !== "tidak_hadir" && (
             <div>
-              <label className="block text-xs font-semibold text-islamic-emerald uppercase tracking-wider mb-1.5 font-sans">
+              <label className="block text-xs font-semibold text-islamic-emerald uppercase tracking-wider mb-2 font-sans">
                 Jumlah Orang yang Hadir
               </label>
-              <div className="relative">
-                <input
-                  type="number"
-                  min={1}
-                  max={6}
-                  value={pax}
-                  onChange={(e) => setPax(parseInt(e.target.value) || 1)}
-                  className="w-full pl-10 pr-4 py-3 rounded-xl border border-gold-300/80 bg-white/90 focus:outline-none focus:ring-2 focus:ring-gold-500 text-sm text-islamic-emerald shadow-sm transition-all"
-                />
-                <Users className="w-4 h-4 text-gold-600 absolute left-3.5 top-3.5" />
+              <div className="flex flex-col sm:flex-row items-stretch sm:items-center gap-3">
+                {/* Stepper Control */}
+                <div className="inline-flex items-center justify-between sm:justify-start rounded-xl border border-gold-300/80 bg-white/95 shadow-sm p-1">
+                  <button
+                    type="button"
+                    onClick={() => setPax(Math.max(1, pax - 1))}
+                    disabled={pax <= 1}
+                    aria-label="Kurangi jumlah orang"
+                    className="w-9 h-9 flex items-center justify-center rounded-lg text-islamic-emerald hover:bg-gold-100 active:bg-gold-200 disabled:opacity-30 disabled:cursor-not-allowed transition-all font-bold text-lg"
+                  >
+                    −
+                  </button>
+                  <div className="px-4 text-center min-w-[5.5rem]">
+                    <span className="font-serif font-bold text-base text-islamic-emerald tabular-nums">
+                      {pax}
+                    </span>
+                    <span className="text-xs text-islamic-forest/70 ml-1.5 font-sans">Orang</span>
+                  </div>
+                  <button
+                    type="button"
+                    onClick={() => setPax(Math.min(6, pax + 1))}
+                    disabled={pax >= 6}
+                    aria-label="Tambah jumlah orang"
+                    className="w-9 h-9 flex items-center justify-center rounded-lg text-islamic-emerald hover:bg-gold-100 active:bg-gold-200 disabled:opacity-30 disabled:cursor-not-allowed transition-all font-bold text-lg"
+                  >
+                    +
+                  </button>
+                </div>
+
+                {/* Quick Pax Selection Pills */}
+                <div className="flex items-center gap-1.5 flex-wrap">
+                  {[1, 2, 3, 4].map((num) => (
+                    <button
+                      key={num}
+                      type="button"
+                      onClick={() => setPax(num)}
+                      className={`flex-1 sm:flex-none px-3.5 py-2 rounded-xl text-xs font-semibold border transition-all duration-200 ${
+                        pax === num
+                          ? "bg-islamic-emerald text-gold-200 border-islamic-deep shadow-sm"
+                          : "bg-white/80 text-islamic-forest/80 border-gold-300/60 hover:bg-gold-50 hover:border-gold-400"
+                      }`}
+                    >
+                      {num} {num >= 4 ? "+ Orang" : "Orang"}
+                    </button>
+                  ))}
+                </div>
               </div>
             </div>
           )}
 
-          {/* Wishes Message */}
+          {/* Wishes Message & Quick Doa Chips */}
           <div>
-            <label className="block text-xs font-semibold text-islamic-emerald uppercase tracking-wider mb-1.5 font-sans">
-              Untaian Doa &amp; Ucapan Selamat
-            </label>
+            <div className="flex items-center justify-between mb-1.5">
+              <label className="block text-xs font-semibold text-islamic-emerald uppercase tracking-wider font-sans">
+                Untaian Doa &amp; Ucapan Selamat
+              </label>
+              <span className="text-[11px] text-gold-700/80 font-medium hidden sm:inline">
+                Pilih doa cepat di bawah
+              </span>
+            </div>
+
+            {/* Quick Doa Chips */}
+            <div className="flex flex-wrap gap-1.5 mb-2.5">
+              {QUICK_DOA_PRESETS.map((preset, idx) => (
+                <button
+                  key={idx}
+                  type="button"
+                  onClick={() => {
+                    setMessage((prev) =>
+                      prev.trim() ? `${prev.trim()}\n\n${preset.text}` : preset.text
+                    );
+                  }}
+                  className="inline-flex items-center gap-1 px-2.5 py-1 rounded-lg text-[11px] bg-gold-50/90 hover:bg-gold-100 text-gold-800 border border-gold-300/70 transition-all hover:scale-[1.02] active:scale-95 text-left"
+                >
+                  <Sparkles className="w-2.5 h-2.5 text-gold-600 shrink-0" />
+                  <span>{preset.label}</span>
+                </button>
+              ))}
+            </div>
+
             <textarea
               required
               rows={3}
               value={message}
               onChange={(e) => setMessage(e.target.value)}
               placeholder="Tuliskan untaian doa dan ucapan restu yang tulus untuk kedua mempelai..."
-              className="w-full p-4 rounded-xl border border-gold-300/80 bg-white/90 focus:outline-none focus:ring-2 focus:ring-gold-500 text-sm text-islamic-emerald placeholder:text-islamic-forest/40 resize-none shadow-sm transition-all"
+              className="w-full p-4 rounded-xl border border-gold-300/80 bg-white/90 focus:outline-none focus:ring-2 focus:ring-gold-500 focus:border-gold-500 text-sm text-islamic-emerald placeholder:text-islamic-forest/40 resize-none shadow-sm transition-all"
             />
           </div>
 
           <button
             type="submit"
-            className="w-full inline-flex items-center justify-center gap-2 py-3.5 px-6 rounded-full bg-gold-gradient hover:bg-gold-gradient-shine text-islamic-emerald font-semibold text-sm tracking-wide shadow-md transition-all duration-300 hover:scale-[1.01] active:scale-95"
+            className="w-full inline-flex items-center justify-center gap-2 py-3.5 px-6 rounded-full bg-gold-gradient hover:bg-gold-gradient-shine text-islamic-emerald font-semibold text-sm tracking-wide shadow-md transition-all duration-300 hover:scale-[1.01] active:scale-95 shimmer-btn"
           >
             <Send className="w-4 h-4 text-islamic-emerald" />
             <span>Kirim Doa Restu &amp; Konfirmasi</span>
@@ -344,32 +424,48 @@ export function RsvpGuestbook({ initialGuestName = "" }: RsvpGuestbookProps) {
         </div>
 
         <div className="max-h-96 overflow-y-auto space-y-3 pr-1">
-          {wishes.map((item) => (
-            <div
-              key={item.id}
-              className="p-4 rounded-2xl bg-white border border-gold-200 shadow-sm text-left transition-all hover:border-gold-400"
-            >
-              <div className="flex items-start gap-3">
-                <div className="w-9 h-9 rounded-full bg-gradient-to-tr from-gold-500 to-islamic-forest text-white font-serif font-bold text-xs flex items-center justify-center shrink-0 shadow-sm">
-                  {getInitials(item.name)}
-                </div>
-                <div className="flex-1 min-w-0">
-                  <div className="flex items-center justify-between flex-wrap gap-1 mb-1">
-                    <span className="font-serif font-bold text-sm text-islamic-emerald truncate">
-                      {item.name}
-                    </span>
-                    <div className="flex items-center gap-2 shrink-0">
-                      {getStatusBadge(item.status)}
-                      <span className="text-[10px] text-islamic-forest/60">{item.timestamp}</span>
-                    </div>
+          {wishes.map((item) => {
+            const statusBorder =
+              item.status === "hadir"
+                ? "border-l-4 border-l-emerald-600"
+                : item.status === "ragu"
+                ? "border-l-4 border-l-amber-500"
+                : "border-l-4 border-l-rose-500";
+
+            return (
+              <div
+                key={item.id}
+                className={`p-4 rounded-2xl bg-white/95 border border-gold-200/90 shadow-sm text-left transition-all duration-200 hover:border-gold-400 hover:shadow-md ${statusBorder}`}
+              >
+                <div className="flex items-start gap-3">
+                  <div className="w-9 h-9 rounded-full bg-gradient-to-tr from-gold-500 to-islamic-forest text-white font-serif font-bold text-xs flex items-center justify-center shrink-0 shadow-sm">
+                    {getInitials(item.name)}
                   </div>
-                  <p className="text-xs sm:text-sm text-islamic-forest/90 leading-relaxed font-sans">
-                    {item.message}
-                  </p>
+                  <div className="flex-1 min-w-0">
+                    <div className="flex items-center justify-between flex-wrap gap-1 mb-1.5">
+                      <div className="flex items-center gap-2">
+                        <span className="font-serif font-bold text-sm text-islamic-emerald truncate">
+                          {item.name}
+                        </span>
+                        {item.status === "hadir" && item.pax > 1 && (
+                          <span className="text-[10px] bg-gold-100 text-gold-800 font-semibold px-2 py-0.5 rounded-full border border-gold-300">
+                            {item.pax} Orang
+                          </span>
+                        )}
+                      </div>
+                      <div className="flex items-center gap-2 shrink-0">
+                        {getStatusBadge(item.status)}
+                        <span className="text-[10px] text-islamic-forest/60">{item.timestamp}</span>
+                      </div>
+                    </div>
+                    <p className="text-xs sm:text-sm text-islamic-forest/90 leading-relaxed font-sans whitespace-pre-line">
+                      {item.message}
+                    </p>
+                  </div>
                 </div>
               </div>
-            </div>
-          ))}
+            );
+          })}
         </div>
       </div>
       </ScrollReveal>

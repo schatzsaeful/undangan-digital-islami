@@ -92,7 +92,7 @@ export function Cover({ guestName, groomNick, brideNick, weddingDate, isOpen, on
         {/* Open Button with Gold Shine & Tactile Feedback */}
         <button
           onClick={handleOpenInvitation}
-          className="relative group overflow-hidden inline-flex items-center gap-3 px-8 py-3.5 rounded-full bg-gold-gradient hover:bg-gold-gradient-shine text-islamic-emerald font-semibold text-sm sm:text-base tracking-wide shadow-xl shadow-gold-500/20 hover:shadow-gold-500/40 hover:scale-105 active:scale-95 transition-all duration-300"
+          className="relative group overflow-hidden inline-flex items-center gap-3 px-8 py-3.5 rounded-full bg-gold-gradient hover:bg-gold-gradient-shine text-islamic-emerald font-semibold text-sm sm:text-base tracking-wide shadow-xl shadow-gold-500/20 hover:shadow-gold-500/40 hover:scale-105 active:scale-95 transition-all duration-300 shimmer-btn"
         >
           <div className="p-1 rounded-full bg-islamic-emerald/10 border border-islamic-emerald/20">
             <MailOpen className="w-4 h-4 text-islamic-emerald transition-transform group-hover:scale-110" />
