@@ -117,3 +117,4 @@ export function GuestPersonalInvitation({ guestName }: GuestPersonalInvitationPr
     </div>
   );
 }
+

@@ -259,3 +259,4 @@ if let pngData = bitmapRep.representation(using: .png, properties: [:]) {
     try! pngData.write(to: outURL)
     print("Successfully generated public/images/og-banner.png (\(pngData.count) bytes)")
 }
+

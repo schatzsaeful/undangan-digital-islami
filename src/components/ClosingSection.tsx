@@ -60,18 +60,12 @@ export function ClosingSection({ groom, bride }: ClosingSectionProps) {
           </div>
 
           <div className="pt-10 text-[11px] text-gold-200/40">
-            <p>Walimatul &apos;Urs Digital Invitation</p>
+            <p>
+              <Link href="/mempelai" className="hover:text-gold-300 transition-colors">
+                Walimatul &apos;Urs Digital Invitation
+              </Link>
+            </p>
             <p className="mt-1">Dibuat dengan penuh rasa syukur &amp; ketulusan</p>
-          </div>
-
-          <div className="pt-6">
-            <Link
-              href="/generator"
-              className="inline-flex items-center gap-1.5 px-4 py-1.5 rounded-full bg-gold-500/10 hover:bg-gold-500/20 text-gold-300/80 hover:text-gold-200 border border-gold-400/20 text-[11px] font-sans tracking-wide transition-all shadow-sm active:scale-95"
-            >
-              <Sparkles className="w-3 h-3 text-gold-400" />
-              <span>Khusus Pengantin: Buat Link Tamu &amp; WhatsApp</span>
-            </Link>
           </div>
         </ScrollReveal>
       </div>
