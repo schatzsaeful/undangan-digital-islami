@@ -39,108 +39,106 @@ function InvitationContent() {
     setIsPlayingAudio((prev) => !prev);
   };
 
-  // If theme is specifically requested as sage / botanical
-  if (themeParam === "sage" || themeParam === "botanical") {
+  // If theme is specifically requested as emerald
+  if (themeParam === "emerald") {
     return (
-      <div className="relative min-h-screen">
-        <ThemePreviewBar currentTheme="sage-botanical" />
-        <SageBotanicalInvitation guestName={guestName} />
+      <div className="relative min-h-screen islamic-pattern">
+        <ThemePreviewBar currentTheme="emerald-gold" />
+
+        {/* Interactive Cover Modal / Curtain */}
+        <Cover
+          guestName={guestName}
+          groomNick={invitationConfig.groom.nickName}
+          brideNick={invitationConfig.bride.nickName}
+          weddingDate={invitationConfig.events.akad.date}
+          isOpen={isCoverOpen}
+          onOpen={handleOpenInvitation}
+        />
+
+        {/* Luxury Scroll Reading Progress & Ambient Stardust */}
+        {isCoverOpen && (
+          <>
+            <ScrollProgress />
+            <GoldenStardust />
+          </>
+        )}
+
+        {/* Floating Audio Controller */}
+        {isCoverOpen && (
+          <AudioPlayer
+            src={invitationConfig.audio.src}
+            isPlaying={isPlayingAudio}
+            onTogglePlay={handleToggleAudio}
+          />
+        )}
+
+        {/* Main Invitation Sections */}
+        <main className="transition-opacity duration-700 ease-in-out">
+          {/* Hero Section */}
+          <HeroSection
+            groom={invitationConfig.groom}
+            bride={invitationConfig.bride}
+            mainDateFormatted={invitationConfig.events.akad.date}
+          />
+
+          {/* Countdown Timer */}
+          <CountdownTimer
+            targetDate={invitationConfig.mainDate}
+            calendarUrl={invitationConfig.events.akad.calendarUrl}
+          />
+
+          {/* Quick Section Navigation Shortcuts */}
+          <QuickNav />
+
+          {/* Bride & Groom Details */}
+          <CoupleSection
+            groom={invitationConfig.groom}
+            bride={invitationConfig.bride}
+            quranVerse={invitationConfig.quranVerse}
+          />
+
+          {/* Event Schedule (Akad & Resepsi) */}
+          <EventSection
+            akad={invitationConfig.events.akad}
+            resepsi={invitationConfig.events.resepsi}
+          />
+
+          {/* Love Story / Ta'aruf Timeline */}
+          <LoveStorySection stories={invitationConfig.stories} />
+
+          {/* Mutiara Sunnah & Hadits Pernikahan */}
+          <QuotesSection />
+
+          {/* Islamic Etiquette (Adab Walimah) */}
+          <AdabWalimahSection items={invitationConfig.adabWalimah} />
+
+          {/* Digital Envelope & Gifts */}
+          <GiftSection
+            bankAccounts={invitationConfig.bankAccounts}
+            physicalGiftAddress={invitationConfig.physicalGiftAddress}
+          />
+
+          {/* RSVP & Digital Guestbook */}
+          <RsvpGuestbook initialGuestName={guestName} />
+
+          {/* Closing & Family Blessings */}
+          <ClosingSection
+            groom={invitationConfig.groom}
+            bride={invitationConfig.bride}
+          />
+        </main>
+
+        {/* Sticky Bottom Navigation Dock */}
+        {isCoverOpen && <BottomNav />}
       </div>
     );
   }
 
+  // Default view on this preview branch: Sage Botanical & Romantic Editorial
   return (
-    <div className="relative min-h-screen islamic-pattern">
-      {/* Show Theme Switcher if preview or theme parameter is active */}
-      {(themeParam === "emerald" || searchParams.get("preview") === "true") && (
-        <ThemePreviewBar currentTheme="emerald-gold" />
-      )}
-
-      {/* Interactive Cover Modal / Curtain */}
-      <Cover
-        guestName={guestName}
-        groomNick={invitationConfig.groom.nickName}
-        brideNick={invitationConfig.bride.nickName}
-        weddingDate={invitationConfig.events.akad.date}
-        isOpen={isCoverOpen}
-        onOpen={handleOpenInvitation}
-      />
-
-      {/* Luxury Scroll Reading Progress & Ambient Stardust */}
-      {isCoverOpen && (
-        <>
-          <ScrollProgress />
-          <GoldenStardust />
-        </>
-      )}
-
-      {/* Floating Audio Controller */}
-      {isCoverOpen && (
-        <AudioPlayer
-          src={invitationConfig.audio.src}
-          isPlaying={isPlayingAudio}
-          onTogglePlay={handleToggleAudio}
-        />
-      )}
-
-      {/* Main Invitation Sections */}
-      <main className="transition-opacity duration-700 ease-in-out">
-        {/* Hero Section */}
-        <HeroSection
-          groom={invitationConfig.groom}
-          bride={invitationConfig.bride}
-          mainDateFormatted={invitationConfig.events.akad.date}
-        />
-
-        {/* Countdown Timer */}
-        <CountdownTimer
-          targetDate={invitationConfig.mainDate}
-          calendarUrl={invitationConfig.events.akad.calendarUrl}
-        />
-
-        {/* Quick Section Navigation Shortcuts */}
-        <QuickNav />
-
-        {/* Bride & Groom Details */}
-        <CoupleSection
-          groom={invitationConfig.groom}
-          bride={invitationConfig.bride}
-          quranVerse={invitationConfig.quranVerse}
-        />
-
-        {/* Event Schedule (Akad & Resepsi) */}
-        <EventSection
-          akad={invitationConfig.events.akad}
-          resepsi={invitationConfig.events.resepsi}
-        />
-
-        {/* Love Story / Ta'aruf Timeline */}
-        <LoveStorySection stories={invitationConfig.stories} />
-
-        {/* Mutiara Sunnah & Hadits Pernikahan (Pengganti Galeri untuk Konsep Syar'i) */}
-        <QuotesSection />
-
-        {/* Islamic Etiquette (Adab Walimah) */}
-        <AdabWalimahSection items={invitationConfig.adabWalimah} />
-
-        {/* Digital Envelope & Gifts */}
-        <GiftSection
-          bankAccounts={invitationConfig.bankAccounts}
-          physicalGiftAddress={invitationConfig.physicalGiftAddress}
-        />
-
-        {/* RSVP & Digital Guestbook */}
-        <RsvpGuestbook initialGuestName={guestName} />
-
-        {/* Closing & Family Blessings */}
-        <ClosingSection
-          groom={invitationConfig.groom}
-          bride={invitationConfig.bride}
-        />
-      </main>
-
-      {/* Sticky Bottom Navigation Dock */}
-      {isCoverOpen && <BottomNav />}
+    <div className="relative min-h-screen">
+      <ThemePreviewBar currentTheme="sage-botanical" />
+      <SageBotanicalInvitation guestName={guestName} />
     </div>
   );
 }
