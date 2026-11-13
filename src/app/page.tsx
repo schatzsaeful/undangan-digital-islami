@@ -19,10 +19,13 @@ import { ClosingSection } from "@/components/ClosingSection";
 import { BottomNav } from "@/components/BottomNav";
 import { ScrollProgress } from "@/components/ScrollProgress";
 import { GoldenStardust } from "@/components/GoldenStardust";
+import { SageBotanicalInvitation } from "@/components/templates/sage-botanical/SageBotanicalInvitation";
+import { ThemePreviewBar } from "@/components/theme/ThemePreviewBar";
 
 function InvitationContent() {
   const searchParams = useSearchParams();
   const guestName = searchParams.get("to") || searchParams.get("tamu") || searchParams.get("u") || "";
+  const themeParam = searchParams.get("theme") || "";
 
   const [isCoverOpen, setIsCoverOpen] = useState(false);
   const [isPlayingAudio, setIsPlayingAudio] = useState(false);
@@ -36,8 +39,23 @@ function InvitationContent() {
     setIsPlayingAudio((prev) => !prev);
   };
 
+  // If theme is specifically requested as sage / botanical
+  if (themeParam === "sage" || themeParam === "botanical") {
+    return (
+      <div className="relative min-h-screen">
+        <ThemePreviewBar currentTheme="sage-botanical" />
+        <SageBotanicalInvitation guestName={guestName} />
+      </div>
+    );
+  }
+
   return (
     <div className="relative min-h-screen islamic-pattern">
+      {/* Show Theme Switcher if preview or theme parameter is active */}
+      {(themeParam === "emerald" || searchParams.get("preview") === "true") && (
+        <ThemePreviewBar currentTheme="emerald-gold" />
+      )}
+
       {/* Interactive Cover Modal / Curtain */}
       <Cover
         guestName={guestName}

@@ -24,6 +24,7 @@ import {
   Save,
   CheckCircle,
   Info,
+  Palette,
 } from "lucide-react";
 import { invitationConfig } from "@/config/invitation";
 import { RubElHizb } from "@/components/IslamicOrnaments";
@@ -112,7 +113,7 @@ const PLACEHOLDER_TAGS = [
 ];
 
 export default function MempelaiPortalPage() {
-  const [activeTab, setActiveTab] = useState<"generator" | "rsvp">("generator");
+  const [activeTab, setActiveTab] = useState<"generator" | "rsvp" | "theme">("generator");
 
   // Generator State
   const [guestName, setGuestName] = useState("");
@@ -413,29 +414,41 @@ export default function MempelaiPortalPage() {
           </p>
 
           {/* Tab Selector (Mobile Friendly Full Width Grid) */}
-          <div className="grid grid-cols-2 gap-2 sm:flex sm:items-center sm:justify-center sm:gap-3 mt-6">
+          <div className="grid grid-cols-3 gap-2 sm:flex sm:items-center sm:justify-center sm:gap-3 mt-6">
             <button
               onClick={() => setActiveTab("generator")}
-              className={`inline-flex items-center justify-center gap-2 px-4 sm:px-6 py-2.5 rounded-full text-xs sm:text-sm font-bold transition-all shadow-sm ${
+              className={`inline-flex items-center justify-center gap-1.5 sm:gap-2 px-3 sm:px-6 py-2.5 rounded-full text-xs sm:text-sm font-bold transition-all shadow-sm ${
                 activeTab === "generator"
                   ? "bg-islamic-emerald text-gold-200 border border-gold-400 scale-[1.02] sm:scale-105"
                   : "bg-white/80 text-islamic-forest border border-gold-300 hover:bg-white"
               }`}
             >
-              <Send className="w-4 h-4" />
+              <Send className="w-3.5 h-3.5 sm:w-4 sm:h-4" />
               <span>Kirim Undangan</span>
             </button>
 
             <button
               onClick={() => setActiveTab("rsvp")}
-              className={`inline-flex items-center justify-center gap-2 px-4 sm:px-6 py-2.5 rounded-full text-xs sm:text-sm font-bold transition-all shadow-sm ${
+              className={`inline-flex items-center justify-center gap-1.5 sm:gap-2 px-3 sm:px-6 py-2.5 rounded-full text-xs sm:text-sm font-bold transition-all shadow-sm ${
                 activeTab === "rsvp"
                   ? "bg-islamic-emerald text-gold-200 border border-gold-400 scale-[1.02] sm:scale-105"
                   : "bg-white/80 text-islamic-forest border border-gold-300 hover:bg-white"
               }`}
             >
-              <UserCheck className="w-4 h-4" />
+              <UserCheck className="w-3.5 h-3.5 sm:w-4 sm:h-4" />
               <span>Rekap RSVP ({totalRsvp})</span>
+            </button>
+
+            <button
+              onClick={() => setActiveTab("theme")}
+              className={`inline-flex items-center justify-center gap-1.5 sm:gap-2 px-3 sm:px-6 py-2.5 rounded-full text-xs sm:text-sm font-bold transition-all shadow-sm ${
+                activeTab === "theme"
+                  ? "bg-islamic-emerald text-gold-200 border border-gold-400 scale-[1.02] sm:scale-105"
+                  : "bg-white/80 text-islamic-forest border border-gold-300 hover:bg-white"
+              }`}
+            >
+              <Palette className="w-3.5 h-3.5 sm:w-4 sm:h-4" />
+              <span>Tema Desain</span>
             </button>
           </div>
         </div>
@@ -986,6 +999,120 @@ export default function MempelaiPortalPage() {
                   </div>
                 ))
               )}
+            </div>
+          </div>
+        )}
+
+        {/* ================= TAB 3: PILIHAN TEMA & DESAIN ================= */}
+        {activeTab === "theme" && (
+          <div className="space-y-8 animate-fade-up">
+            <div className="text-center max-w-xl mx-auto space-y-2">
+              <span className="text-xs uppercase tracking-widest text-gold-600 font-bold bg-gold-100 px-3 py-1 rounded-full border border-gold-300">
+                Pilihan Konsep Estetika
+              </span>
+              <h2 className="font-serif text-2xl sm:text-3xl font-extrabold text-islamic-emerald">
+                Pilihan Desain Undangan Anda
+              </h2>
+              <p className="text-xs sm:text-sm text-islamic-forest/80 leading-relaxed">
+                Anda dapat mencoba langsung kedua konsep desain di bawah ini dari HP Anda, membandingkan nuansa visualnya, dan menentukan mana yang paling sesuai dengan tema pernikahan Anda.
+              </p>
+            </div>
+
+            <div className="grid grid-cols-1 md:grid-cols-2 gap-6 sm:gap-8">
+              {/* Card Template 1 */}
+              <div className="p-6 sm:p-7 rounded-3xl bg-white border border-gold-300 shadow-sm flex flex-col justify-between">
+                <div className="space-y-4">
+                  <div className="flex items-center justify-between">
+                    <span className="text-[10.5px] font-bold text-amber-800 bg-amber-100 px-3 py-1 rounded-full border border-amber-300 uppercase tracking-wider">
+                      Klasik &amp; Megah
+                    </span>
+                    <span className="text-xs text-slate-400 font-mono">Template 01</span>
+                  </div>
+
+                  <div>
+                    <h3 className="font-serif font-bold text-xl text-islamic-emerald">
+                      Royal Emerald &amp; Gold
+                    </h3>
+                    <p className="text-xs text-islamic-forest/75 mt-1 leading-relaxed">
+                      Warna hijau botol tua berpadu dengan kilau emas metalik dan ornamen islami bintang Rub El Hizb.
+                    </p>
+                  </div>
+
+                  <div className="flex items-center gap-2 pt-1">
+                    <span className="text-xs font-semibold text-islamic-forest/70">Warna:</span>
+                    <span className="w-5 h-5 rounded-full bg-[#0B2B26] border border-slate-200" title="Emerald" />
+                    <span className="w-5 h-5 rounded-full bg-[#163832] border border-slate-200" title="Forest" />
+                    <span className="w-5 h-5 rounded-full bg-[#C59325] border border-slate-200" title="Gold" />
+                    <span className="w-5 h-5 rounded-full bg-[#FDFBF7] border border-slate-200" title="Ivory" />
+                  </div>
+                </div>
+
+                <div className="pt-6 flex flex-col sm:flex-row gap-2.5">
+                  <Link
+                    href="/template/emerald-gold"
+                    target="_blank"
+                    className="flex-1 py-2.5 px-4 rounded-xl bg-islamic-emerald hover:bg-islamic-deep text-gold-200 text-xs font-bold transition flex items-center justify-center gap-1.5 shadow-sm text-center"
+                  >
+                    <span>Coba Live Demo</span>
+                    <ExternalLink className="w-3.5 h-3.5" />
+                  </Link>
+                </div>
+              </div>
+
+              {/* Card Template 2 */}
+              <div className="p-6 sm:p-7 rounded-3xl bg-white border-2 border-emerald-500/50 shadow-md flex flex-col justify-between relative overflow-hidden">
+                <div className="absolute top-3 right-3 px-2.5 py-0.5 rounded-full bg-emerald-600 text-white text-[9px] font-bold uppercase tracking-wider">
+                  Baru
+                </div>
+
+                <div className="space-y-4">
+                  <div className="flex items-center justify-between">
+                    <span className="text-[10.5px] font-bold text-emerald-800 bg-emerald-100 px-3 py-1 rounded-full border border-emerald-300 uppercase tracking-wider">
+                      Modern &amp; Romantis
+                    </span>
+                    <span className="text-xs text-slate-400 font-mono">Template 02</span>
+                  </div>
+
+                  <div>
+                    <h3 className="font-serif italic font-bold text-xl text-[#253B30]">
+                      Sage Botanical Editorial
+                    </h3>
+                    <p className="text-xs text-[#5C6D64] mt-1 leading-relaxed">
+                      Nuansa dedaunan eucalyptus dan olive yang sejuk, amplop surat berserat linen, dan stempel lilin (wax seal) romantis.
+                    </p>
+                  </div>
+
+                  <div className="flex items-center gap-2 pt-1">
+                    <span className="text-xs font-semibold text-islamic-forest/70">Warna:</span>
+                    <span className="w-5 h-5 rounded-full bg-[#4A6354] border border-slate-200" title="Sage Olive" />
+                    <span className="w-5 h-5 rounded-full bg-[#7D9D8B] border border-slate-200" title="Soft Sage" />
+                    <span className="w-5 h-5 rounded-full bg-[#B57E70] border border-slate-200" title="Dusty Rose" />
+                    <span className="w-5 h-5 rounded-full bg-[#FAF7F2] border border-slate-200" title="Linen Cream" />
+                  </div>
+                </div>
+
+                <div className="pt-6 flex flex-col sm:flex-row gap-2.5">
+                  <Link
+                    href="/template/sage-botanical"
+                    target="_blank"
+                    className="flex-1 py-2.5 px-4 rounded-xl bg-[#4A6354] hover:bg-[#394E42] text-white text-xs font-bold transition flex items-center justify-center gap-1.5 shadow-sm text-center"
+                  >
+                    <span>Coba Live Demo</span>
+                    <ExternalLink className="w-3.5 h-3.5" />
+                  </Link>
+                </div>
+              </div>
+            </div>
+
+            {/* Link to Full Showcase */}
+            <div className="text-center pt-2">
+              <Link
+                href="/template/katalog"
+                className="inline-flex items-center gap-2 px-6 py-3 rounded-full bg-white border border-gold-300 hover:border-gold-500 text-islamic-emerald text-xs font-bold shadow-sm transition hover:scale-105"
+              >
+                <Sparkles className="w-4 h-4 text-gold-600" />
+                <span>Buka Katalog Lengkap &amp; Perbandingan Desain</span>
+              </Link>
             </div>
           </div>
         )}
